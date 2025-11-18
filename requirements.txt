@@ -1,0 +1,36 @@
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+streamlit==1.28.2
+requests==2.31.0
+pandas==2.1.4
+python-dotenv==1.0.0
+pydantic==2.5.0
+python-multipart==0.0.6
+
+# Document Processing
+PyPDF2==3.0.1
+beautifulsoup4==4.12.2
+
+# Vector Database (Simple Implementation)
+# Note: This project uses a custom simple vector database
+# No external vector DB dependencies required
+
+# Selenium and Web Testing
+selenium==4.16.0
+webdriver-manager==4.0.1
+
+# LLM Integration (Install based on your provider)
+# Google Gemini (Recommended - currently configured):
+google-generativeai>=0.3.0
+
+# Alternative LLM Providers (uncomment as needed):
+# openai>=1.0.0              # For OpenAI GPT
+# anthropic>=0.3.0           # For Claude
+# transformers>=4.21.0       # For HuggingFace models
+
+# Development Dependencies (optional)
+# pytest==7.4.3
+# pytest-asyncio==0.21.1
+# black==23.11.0
+# flake8==6.1.0

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .coupon-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .coupon-input {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+        }
+        .coupon-input input {
+            flex: 1;
+            margin: 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #1e7e34;
+        }
+        .order-summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .total-line {
+            font-weight: bold;
+            font-size: 18px;
+            border-top: 2px solid #333;
+            padding-top: 10px;
+            margin-top: 15px;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .success-message {
+            color: #28a745;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .required {
+            color: #dc3545;
+        }
+        .checkout-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .step {
+            padding: 10px 20px;
+            background-color: #e9ecef;
+            margin: 0 5px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .step.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Checkout</h1>
+            <p>Complete your order securely</p>
+        </div>
+
+        <div class="checkout-steps">
+            <div class="step">Cart</div>
+            <div class="step active">Checkout</div>
+            <div class="step">Confirmation</div>
+        </div>
+
+        <form id="checkout-form" action="/process-order" method="post">
+            <!-- Billing Information Section -->
+            <div class="section">
+                <h3>Billing Information</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name <span class="required">*</span></label>
+                        <input type="text" id="first-name" name="firstName" required>
+                        <div class="error-message" id="first-name-error">First name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name <span class="required">*</span></label>
+                        <input type="text" id="last-name" name="lastName" required>
+                        <div class="error-message" id="last-name-error">Last name is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message" id="email-error">Valid email address is required</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Street Address <span class="required">*</span></label>
+                    <input type="text" id="address" name="address" required>
+                    <div class="error-message" id="address-error">Street address is required</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City <span class="required">*</span></label>
+                        <input type="text" id="city" name="city" required>
+                        <div class="error-message" id="city-error">City is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State <span class="required">*</span></label>
+                        <select id="state" name="state" required>
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="CA">California</option>
+                            <option value="FL">Florida</option>
+                            <option value="NY">New York</option>
+                            <option value="TX">Texas</option>
+                        </select>
+                        <div class="error-message" id="state-error">State selection is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">ZIP Code <span class="required">*</span></label>
+                        <input type="text" id="zip" name="zipCode" required pattern="[0-9]{5}">
+                        <div class="error-message" id="zip-error">Valid ZIP code is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coupon/Discount Section -->
+            <div class="coupon-section">
+                <h4>Discount Code</h4>
+                <p>Have a coupon or discount code? Enter it below:</p>
+                <div class="coupon-input">
+                    <div class="form-group" style="margin: 0;">
+                        <input type="text" id="coupon-code" name="couponCode" placeholder="Enter discount code">
+                        <div class="error-message" id="coupon-error">Invalid discount code</div>
+                        <div class="success-message" id="coupon-success">Discount applied successfully!</div>
+                    </div>
+                    <button type="button" id="apply-coupon" class="btn">Apply Coupon</button>
+                </div>
+            </div>
+
+            <!-- Payment Information Section -->
+            <div class="section">
+                <h3>Payment Information</h3>
+
+                <div class="form-group">
+                    <label for="payment-method">Payment Method <span class="required">*</span></label>
+                    <select id="payment-method" name="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="credit-card">Credit Card</option>
+                        <option value="debit-card">Debit Card</option>
+                        <option value="paypal">PayPal</option>
+                    </select>
+                    <div class="error-message" id="payment-method-error">Payment method is required</div>
+                </div>
+
+                <div id="card-details" style="display: none;">
+                    <div class="form-group">
+                        <label for="card-number">Card Number <span class="required">*</span></label>
+                        <input type="text" id="card-number" name="cardNumber" placeholder="1234 5678 9012 3456">
+                        <div class="error-message" id="card-number-error">Valid card number is required</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry-month">Expiry Month <span class="required">*</span></label>
+                            <select id="expiry-month" name="expiryMonth">
+                                <option value="">Month</option>
+                                <option value="01">01 - January</option>
+                                <option value="02">02 - February</option>
+                                <option value="03">03 - March</option>
+                                <option value="04">04 - April</option>
+                                <option value="05">05 - May</option>
+                                <option value="06">06 - June</option>
+                                <option value="07">07 - July</option>
+                                <option value="08">08 - August</option>
+                                <option value="09">09 - September</option>
+                                <option value="10">10 - October</option>
+                                <option value="11">11 - November</option>
+                                <option value="12">12 - December</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="expiry-year">Expiry Year <span class="required">*</span></label>
+                            <select id="expiry-year" name="expiryYear">
+                                <option value="">Year</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV <span class="required">*</span></label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
+                            <div class="error-message" id="cvv-error">Valid CVV is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardholder-name">Cardholder Name <span class="required">*</span></label>
+                        <input type="text" id="cardholder-name" name="cardholderName">
+                        <div class="error-message" id="cardholder-error">Cardholder name is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary Section -->
+            <div class="section">
+                <h3>Order Summary</h3>
+                <div class="order-summary">
+                    <div class="summary-line">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$99.99</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Shipping:</span>
+                        <span id="shipping">$9.99</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Tax:</span>
+                        <span id="tax">$8.25</span>
+                    </div>
+                    <div class="summary-line" id="discount-line" style="display: none;">
+                        <span>Discount:</span>
+                        <span id="discount">-$0.00</span>
+                    </div>
+                    <div class="summary-line total-line">
+                        <span>Total:</span>
+                        <span id="total">$118.23</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="terms-checkbox" name="agreeToTerms" required>
+                    I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a> <span class="required">*</span>
+                </label>
+                <div class="error-message" id="terms-error">You must agree to the terms and conditions</div>
+            </div>
+
+            <!-- Submit Button -->
+            <div style="text-align: center; margin-top: 30px;">
+                <button type="submit" id="place-order" class="btn btn-success" style="font-size: 16px; padding: 15px 30px;">
+                    Place Order
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Show/hide card details based on payment method
+        document.getElementById('payment-method').addEventListener('change', function() {
+            const cardDetails = document.getElementById('card-details');
+            if (this.value === 'credit-card' || this.value === 'debit-card') {
+                cardDetails.style.display = 'block';
+            } else {
+                cardDetails.style.display = 'none';
+            }
+        });
+
+        // Coupon application functionality
+        document.getElementById('apply-coupon').addEventListener('click', function() {
+            const couponCode = document.getElementById('coupon-code').value.trim();
+            const errorMsg = document.getElementById('coupon-error');
+            const successMsg = document.getElementById('coupon-success');
+            
+            // Reset messages
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (!couponCode) {
+                errorMsg.textContent = 'Please enter a discount code';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Simulate coupon validation
+            const validCoupons = ['SAVE10', 'DISCOUNT20', 'WELCOME15', 'FIRST10'];
+            
+            if (validCoupons.includes(couponCode.toUpperCase())) {
+                // Apply discount
+                const discountAmount = couponCode.toUpperCase() === 'SAVE10' ? 10.00 : 
+                                      couponCode.toUpperCase() === 'DISCOUNT20' ? 20.00 :
+                                      couponCode.toUpperCase() === 'WELCOME15' ? 15.00 : 10.00;
+                
+                document.getElementById('discount').textContent = '-$' + discountAmount.toFixed(2);
+                document.getElementById('discount-line').style.display = 'flex';
+                
+                // Update total
+                const subtotal = 99.99;
+                const shipping = 9.99;
+                const tax = 8.25;
+                const newTotal = subtotal + shipping + tax - discountAmount;
+                document.getElementById('total').textContent = '$' + newTotal.toFixed(2);
+                
+                successMsg.style.display = 'block';
+                this.disabled = true;
+                this.textContent = 'Applied';
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        });
+
+        // Form validation
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+            const requiredFields = ['first-name', 'last-name', 'email', 'address', 'city', 'state', 'zip'];
+            
+            // Validate required fields
+            requiredFields.forEach(function(fieldId) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(fieldId + '-error');
+                
+                if (!field.value.trim()) {
+                    errorDiv.style.display = 'block';
+                    isValid = false;
+                } else {
+                    errorDiv.style.display = 'none';
+                }
+            });
+
+            // Validate payment method
+            const paymentMethod = document.getElementById('payment-method');
+            if (!paymentMethod.value) {
+                document.getElementById('payment-method-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('payment-method-error').style.display = 'none';
+            }
+
+            // Validate card details if card payment is selected
+            if (paymentMethod.value === 'credit-card' || paymentMethod.value === 'debit-card') {
+                const cardFields = ['card-number', 'cardholder-name', 'cvv'];
+                cardFields.forEach(function(fieldId) {
+                    const field = document.getElementById(fieldId);
+                    const errorDiv = document.getElementById(fieldId + '-error');
+                    
+                    if (!field.value.trim()) {
+                        errorDiv.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        errorDiv.style.display = 'none';
+                    }
+                });
+            }
+
+            // Validate terms checkbox
+            const termsCheckbox = document.getElementById('terms-checkbox');
+            if (!termsCheckbox.checked) {
+                document.getElementById('terms-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('terms-error').style.display = 'none';
+            }
+
+            if (isValid) {
+                alert('Order submitted successfully! (This is a demo)');
+                // In a real application, you would submit the form here
+                // this.submit();
+            }
+        });
+
+        // Email validation
+        document.getElementById('email').addEventListener('blur', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const errorDiv = document.getElementById('email-error');
+            
+            if (this.value && !emailRegex.test(this.value)) {
+                errorDiv.textContent = 'Please enter a valid email address';
+                errorDiv.style.display = 'block';
+            } else {
+                errorDiv.style.display = 'none';
+            }
+        });
+
+        // ZIP code validation
+        document.getElementById('zip').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').substring(0, 5);
+        });
+
+        // Card number formatting
+        document.getElementById('card-number').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            value = value.substring(0, 16);
+            value = value.replace(/(.{4})/g, '$1 ').trim();
+            this.value = value;
+        });
+
+        // CVV validation
+        document.getElementById('cvv').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').substring(0, 4);
+        });
+    </script>
+</body>
+</html>

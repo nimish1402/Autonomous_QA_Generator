@@ -1,0 +1,153 @@
+{
+  "checkout_system": {
+    "version": "1.0.0",
+    "last_updated": "2025-01-15",
+    "features": {
+      "discount_codes": {
+        "enabled": true,
+        "supported_codes": [
+          {
+            "code": "SAVE10",
+            "discount_type": "fixed",
+            "discount_value": 10.00,
+            "description": "Save $10 on your order"
+          },
+          {
+            "code": "DISCOUNT20", 
+            "discount_type": "fixed",
+            "discount_value": 20.00,
+            "description": "Save $20 on your order"
+          },
+          {
+            "code": "WELCOME15",
+            "discount_type": "fixed", 
+            "discount_value": 15.00,
+            "description": "Welcome discount - $15 off"
+          },
+          {
+            "code": "FIRST10",
+            "discount_type": "fixed",
+            "discount_value": 10.00,
+            "description": "First-time customer discount"
+          }
+        ],
+        "validation_rules": {
+          "max_length": 20,
+          "case_sensitive": false,
+          "special_characters_allowed": false,
+          "multiple_codes_per_order": false
+        }
+      },
+      "payment_methods": {
+        "credit_card": {
+          "enabled": true,
+          "supported_types": ["visa", "mastercard", "amex"],
+          "validation": {
+            "card_number_length": 16,
+            "cvv_length": [3, 4],
+            "expiry_validation": "future_date"
+          }
+        },
+        "debit_card": {
+          "enabled": true,
+          "validation": "same_as_credit_card"
+        },
+        "paypal": {
+          "enabled": true,
+          "redirect_required": true
+        }
+      },
+      "form_validation": {
+        "required_fields": [
+          "firstName",
+          "lastName", 
+          "email",
+          "address",
+          "city",
+          "state",
+          "zipCode",
+          "paymentMethod",
+          "agreeToTerms"
+        ],
+        "conditional_required": {
+          "card_payment": [
+            "cardNumber",
+            "expiryMonth", 
+            "expiryYear",
+            "cvv",
+            "cardholderName"
+          ]
+        }
+      },
+      "pricing": {
+        "base_shipping": 9.99,
+        "tax_rate": 0.0825,
+        "currency": "USD",
+        "calculation_order": [
+          "subtotal",
+          "discount_application", 
+          "tax_calculation",
+          "shipping_addition",
+          "final_total"
+        ]
+      }
+    },
+    "error_messages": {
+      "validation": {
+        "required_field": "{field_name} is required",
+        "invalid_email": "Please enter a valid email address",
+        "invalid_zip": "ZIP code must be 5 digits",
+        "invalid_card": "Please enter a valid card number",
+        "invalid_cvv": "CVV must be 3-4 digits",
+        "terms_required": "You must agree to the terms and conditions"
+      },
+      "discount": {
+        "invalid_code": "Invalid discount code",
+        "empty_code": "Please enter a discount code", 
+        "already_applied": "A discount has already been applied",
+        "expired_code": "This discount code has expired"
+      },
+      "system": {
+        "network_error": "Network error occurred. Please try again.",
+        "server_error": "Server error occurred. Please contact support.",
+        "timeout_error": "Request timed out. Please try again."
+      }
+    },
+    "success_messages": {
+      "discount_applied": "Discount applied successfully!",
+      "order_placed": "Order placed successfully!",
+      "payment_processed": "Payment processed successfully"
+    },
+    "ui_elements": {
+      "buttons": {
+        "apply_coupon": {
+          "id": "apply-coupon",
+          "text": "Apply Coupon",
+          "states": ["enabled", "disabled", "loading"]
+        },
+        "place_order": {
+          "id": "place-order", 
+          "text": "Place Order",
+          "type": "submit"
+        }
+      },
+      "input_fields": {
+        "coupon_code": {
+          "id": "coupon-code",
+          "placeholder": "Enter discount code",
+          "max_length": 20
+        },
+        "email": {
+          "id": "email",
+          "type": "email",
+          "required": true
+        },
+        "card_number": {
+          "id": "card-number",
+          "formatting": "#### #### #### ####",
+          "max_length": 19
+        }
+      }
+    }
+  }
+}

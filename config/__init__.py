@@ -1,0 +1,1 @@
+# Configuration settings for Autonomous QA Agent

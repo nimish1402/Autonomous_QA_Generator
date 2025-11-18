@@ -1,0 +1,101 @@
+E-Commerce Checkout Testing Guide
+
+This document provides testing guidelines and test scenarios for the checkout system.
+
+DISCOUNT CODE TESTING
+
+Positive Test Scenarios:
+- Enter valid discount code SAVE10 and verify $10 discount is applied
+- Enter valid discount code DISCOUNT20 and verify $20 discount is applied  
+- Enter valid discount code WELCOME15 and verify $15 discount is applied
+- Enter valid discount code FIRST10 and verify $10 discount is applied
+- Verify discount codes work in both uppercase and lowercase
+- Confirm Apply button becomes disabled after successful application
+- Verify success message displays: "Discount applied successfully!"
+
+Negative Test Scenarios:
+- Enter invalid discount code and verify error message appears
+- Submit empty discount code field and verify validation message
+- Try to apply multiple discount codes and verify only one is accepted
+- Enter discount code with special characters and verify handling
+- Enter discount code longer than 20 characters and verify truncation
+
+FORM VALIDATION TESTING
+
+Required Field Tests:
+Test all required fields show appropriate error messages when left empty:
+- First Name field validation
+- Last Name field validation  
+- Email Address field validation
+- Street Address field validation
+- City field validation
+- State dropdown validation
+- ZIP Code field validation
+- Payment method selection validation
+- Terms and conditions checkbox validation
+
+Field Format Tests:
+- Email format validation with invalid formats
+- ZIP code accepts only 5-digit numbers
+- Phone number field accepts various formats
+- Card number formatting with spaces every 4 digits
+- CVV accepts 3-4 digit numbers only
+- Expiry date validation for future dates
+
+PAYMENT METHOD TESTING
+
+Credit Card Tests:
+- Select credit card payment method
+- Verify card details section appears
+- Enter valid 16-digit card number
+- Test card number formatting (spaces added automatically)
+- Enter valid CVV (3-4 digits)
+- Select valid expiry month and year
+- Enter cardholder name
+- Verify all card fields are required when card payment selected
+
+PayPal Tests:
+- Select PayPal payment method
+- Verify card details section is hidden
+- Confirm PayPal-specific validation rules
+
+CHECKOUT PROCESS TESTING
+
+End-to-End Scenarios:
+- Complete full checkout process with all valid data
+- Verify order summary calculations are correct
+- Test checkout with and without discount codes
+- Confirm final total matches individual components
+- Verify form submission triggers appropriate validation
+- Test successful order placement flow
+
+Error Recovery Tests:
+- Fill form partially and verify progress is maintained
+- Test browser refresh behavior during checkout
+- Verify error messages clear when fields are corrected
+- Test form reset functionality if available
+
+ACCESSIBILITY TESTING
+
+- Verify all form fields have proper labels
+- Test keyboard navigation through all form elements
+- Confirm error messages are announced by screen readers
+- Verify color contrast meets accessibility standards
+- Test with various browser zoom levels
+
+BROWSER COMPATIBILITY
+
+Test checkout functionality across:
+- Chrome (latest version)
+- Firefox (latest version)  
+- Safari (latest version)
+- Edge (latest version)
+- Mobile browsers (iOS Safari, Android Chrome)
+
+PERFORMANCE TESTING
+
+- Measure form load time
+- Test discount code application response time
+- Verify checkout submission performance
+- Test with slow network connections
+- Monitor memory usage during checkout process
