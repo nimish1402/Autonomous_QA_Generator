@@ -12,9 +12,13 @@ python-multipart==0.0.6
 PyPDF2==3.0.1
 beautifulsoup4==4.12.2
 
-# Vector Database (Simple Implementation)
-# Note: This project uses a custom simple vector database
-# No external vector DB dependencies required
+# Vector Database
+# ChromaDB for semantic similarity search (recommended)
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# Simple Vector Database (fallback - no additional dependencies)
+# Note: Application falls back to simple keyword-based search if ChromaDB unavailable
 
 # Selenium and Web Testing
 selenium==4.16.0

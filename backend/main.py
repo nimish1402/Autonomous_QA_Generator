@@ -29,7 +29,7 @@ import sys
 sys.path.append(str(parent_dir))
 
 from utils.document_parser import DocumentParser, TextChunker
-from utils.simple_vector_db import VectorDatabase
+from utils.vector_database import VectorDatabase
 from models.llm_agent import TestCaseGenerator, SeleniumScriptGenerator
 from utils.html_parser import HTMLParser
 try:
@@ -63,6 +63,14 @@ app.add_middleware(
 document_parser = DocumentParser()
 text_chunker = TextChunker(chunk_size=1000, overlap=200)
 vector_db = VectorDatabase(persist_directory="./vectordb")
+
+# Log which vector database implementation is being used
+vector_db_type = type(vector_db).__name__
+if hasattr(vector_db, 'embedding_model_name'):
+    logger.info(f"🧠 Using ChromaDB with semantic embeddings (model: {vector_db.embedding_model_name})")
+else:
+    logger.info(f"🔤 Using SimpleVectorDatabase with keyword matching")
+
 test_case_generator = TestCaseGenerator()
 selenium_generator = SeleniumScriptGenerator()
 html_parser = HTMLParser()
@@ -128,14 +136,23 @@ async def get_status():
         if LLM_CLIENT_AVAILABLE:
             llm_status = llm_client.get_status()
         
+        # Detect vector database type
+        vector_db_info = {
+            "type": type(vector_db).__name__,
+            "implementation": "ChromaDB (semantic embeddings)" if hasattr(vector_db, 'embedding_model_name') else "SimpleVectorDatabase (keyword matching)",
+            "model": getattr(vector_db, 'embedding_model_name', 'keyword-based'),
+            "search_method": "semantic similarity" if hasattr(vector_db, 'embedding_model_name') else "keyword overlap"
+        }
+
         return {
             "status": "healthy",
             "database": db_stats,
+            "vector_database": vector_db_info,
             "checkout_html_loaded": checkout_html_content is not None,
             "llm": llm_status,
             "components": {
                 "document_parser": "active",
-                "vector_database": "active",
+                "vector_database": f"active ({vector_db_info['implementation']})",
                 "test_case_generator": "active",
                 "selenium_generator": "active",
                 "llm_client": "active" if LLM_CLIENT_AVAILABLE else "template-only"

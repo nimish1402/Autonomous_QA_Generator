@@ -66,20 +66,43 @@ class VectorDatabase:
             model_name=embedding_model_name
         )
         
-        # Get or create collection
-        try:
-            self.collection = self.client.get_collection(
-                name=collection_name,
-                embedding_function=self.embedding_function
-            )
-        except ValueError:
-            # Collection doesn't exist, create it
-            self.collection = self.client.create_collection(
-                name=collection_name,
-                embedding_function=self.embedding_function
-            )
+        # Get or create collection with robust error handling
+        self.collection = self._get_or_create_collection(collection_name)
         
         self.logger = logging.getLogger(__name__)
+    
+    def _get_or_create_collection(self, collection_name: str):
+        """
+        Safely get or create a ChromaDB collection.
+        
+        Args:
+            collection_name: Name of the collection
+            
+        Returns:
+            ChromaDB collection object
+        """
+        try:
+            # Try to get existing collection
+            return self.client.get_collection(
+                name=collection_name,
+                embedding_function=self.embedding_function
+            )
+        except Exception:
+            # Collection doesn't exist or other error, try to create it
+            try:
+                return self.client.create_collection(
+                    name=collection_name,
+                    embedding_function=self.embedding_function
+                )
+            except Exception as e:
+                # If creation also fails, try to get or create without embedding function
+                try:
+                    return self.client.get_or_create_collection(
+                        name=collection_name,
+                        embedding_function=self.embedding_function
+                    )
+                except Exception as e2:
+                    raise Exception(f"Failed to create collection '{collection_name}': {e2}")
     
     def add_documents(self, chunks: List[Dict]) -> Dict[str, Any]:
         """
