@@ -177,33 +177,33 @@ def inject_modern_css():
     
     .success-card {
         background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-        border-left: 4px solid var(--success-color);
-        border-radius: var(--border-radius);
+        border-left: 4px solid #10b981;
+        border-radius: 12px;
         padding: 1.5rem;
         margin: 1rem 0;
-        box-shadow: var(--shadow-sm);
-        color: #065f46;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        color: #065f46 !important;
         animation: slideInRight 0.5s ease-out;
     }
     
     .warning-card {
         background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-        border-left: 4px solid var(--warning-color);
-        border-radius: var(--border-radius);
+        border-left: 4px solid #f59e0b;
+        border-radius: 12px;
         padding: 1.5rem;
         margin: 1rem 0;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         color: #92400e;
         animation: pulse 2s infinite;
     }
     
     .error-card {
         background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
-        border-left: 4px solid var(--error-color);
-        border-radius: var(--border-radius);
+        border-left: 4px solid #ef4444;
+        border-radius: 12px;
         padding: 1.5rem;
         margin: 1rem 0;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         color: #991b1b;
         animation: shake 0.5s ease-in-out;
     }
@@ -416,14 +416,326 @@ def inject_modern_css():
     }
     
     .stTextInput > div > div {
-        border-radius: var(--border-radius);
-        border: 2px solid var(--border-light);
-        transition: var(--transition);
+        border-radius: 12px;
+        border: 2px solid #e5e7eb;
+        background-color: #ffffff !important;
+        transition: all 0.3s ease;
     }
     
     .stTextInput > div > div:focus-within {
-        border-color: var(--primary-color);
+        border-color: #6366f1;
         box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        background-color: #ffffff !important;
+    }
+    
+    /* Sidebar Styling - White Background with Black Text */
+    .css-1d391kg {
+        background-color: #ffffff !important;
+    }
+    
+    .sidebar .sidebar-content {
+        background-color: #ffffff !important;
+    }
+    
+    section[data-testid="stSidebar"] {
+        background-color: #ffffff !important;
+    }
+    
+    section[data-testid="stSidebar"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Sidebar text styling - Force all text to black */
+    section[data-testid="stSidebar"] * {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMarkdown {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMarkdown p,
+    section[data-testid="stSidebar"] .stMarkdown div,
+    section[data-testid="stSidebar"] .stMarkdown span {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMarkdown h1,
+    section[data-testid="stSidebar"] .stMarkdown h2,
+    section[data-testid="stSidebar"] .stMarkdown h3,
+    section[data-testid="stSidebar"] .stMarkdown h4 {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMetric {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMetric-value {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMetric-label {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .element-container {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stAlert {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stSuccess {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stWarning {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stInfo {
+        color: #000000 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stError {
+        color: #000000 !important;
+    }
+    
+    /* Default Font Color - Black for all main content */
+    .stApp {
+        color: #000000 !important;
+    }
+    
+    .stMarkdown, .stText, .element-container {
+        color: #000000 !important;
+    }
+    
+    .stMarkdown p, .stMarkdown div, .stMarkdown span {
+        color: #000000 !important;
+    }
+    
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        color: #000000 !important;
+    }
+    
+    /* Input and form elements styling */
+    .stTextInput > div > div > input {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+        border: none !important;
+        padding: 0.75rem 1rem !important;
+    }
+    
+    .stTextInput > div > div > input::placeholder {
+        color: #9ca3af !important;
+    }
+    
+    /* Selectbox styling */
+    .stSelectbox > div > div {
+        background-color: #ffffff !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .stSelectbox > div > div:focus-within {
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+    }
+    
+    .stSelectbox > div > div > div {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] {
+        background-color: #ffffff !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Textarea styling */
+    .stTextArea > div > div > textarea {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1rem !important;
+    }
+    
+    .stTextArea > div > div > textarea:focus {
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+    }
+    
+    .stTextArea > div > div > textarea::placeholder {
+        color: #9ca3af !important;
+    }
+    
+    /* Tab text styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 24px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 8px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        white-space: pre-wrap;
+        background: transparent;
+        border-radius: 8px;
+        gap: 8px;
+        padding: 12px 24px;
+        font-weight: 500;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        color: #000000 !important;
+    }
+    
+    .stTabs [data-baseweb="tab"] * {
+        color: #000000 !important;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid rgba(74, 144, 226, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2) !important;
+        color: #000000 !important;
+    }
+    
+    .stTabs [aria-selected="true"] * {
+        color: #000000 !important;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transform: translateY(-1px);
+        color: #000000 !important;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover * {
+        color: #000000 !important;
+    }
+    
+    /* Dropdown menu styling */
+    [data-baseweb="popover"] {
+        background-color: #ffffff !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    [data-baseweb="menu"] {
+        background-color: #ffffff !important;
+    }
+    
+    [data-baseweb="menu-item"] {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+    
+    [data-baseweb="menu-item"]:hover {
+        background-color: #f3f4f6 !important;
+        color: #000000 !important;
+    }
+    
+    /* File uploader styling */
+    .stFileUploader > div > div {
+        background-color: #ffffff !important;
+        border: 2px dashed #d1d5db !important;
+        border-radius: 12px !important;
+        color: #000000 !important;
+    }
+    
+    .stFileUploader > div > div:hover {
+        border-color: #6366f1 !important;
+        background-color: #f8fafc !important;
+    }
+    
+    .stFileUploader label {
+        color: #000000 !important;
+    }
+    
+    /* Interactive Card Text Override */
+    .interactive-card {
+        color: #000000 !important;
+    }
+    
+    .interactive-card h1, .interactive-card h2, .interactive-card h3, .interactive-card h4, .interactive-card h5, .interactive-card h6 {
+        color: #000000 !important;
+    }
+    
+    .interactive-card p, .interactive-card div, .interactive-card span, .interactive-card li {
+        color: #000000 !important;
+    }
+    
+    /* Warning Card Text Override */
+    .warning-card {
+        color: #000000 !important;
+    }
+    
+    .warning-card h1, .warning-card h2, .warning-card h3, .warning-card h4, .warning-card h5, .warning-card h6 {
+        color: #000000 !important;
+    }
+    
+    .warning-card p, .warning-card div, .warning-card span {
+        color: #000000 !important;
+    }
+    
+    /* Success and Error Box Styling */
+    .success-box {
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+        border: 1px solid #10b981 !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+        margin: 1rem 0 !important;
+        color: #065f46 !important;
+    }
+    
+    .success-box * {
+        color: #065f46 !important;
+    }
+    
+    .error-box {
+        background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%) !important;
+        border: 1px solid #ef4444 !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+        margin: 1rem 0 !important;
+        color: #991b1b !important;
+    }
+    
+    .error-box * {
+        color: #991b1b !important;
+    }
+    
+    /* Code Block Styling */
+    .stCode {
+        background-color: #1f2937 !important;
+        color: #f9fafb !important;
+    }
+    
+    .stCode code {
+        color: #f9fafb !important;
+    }
+    
+    /* Ensure proper contrast for light backgrounds */
+    pre {
+        background-color: #f8fafc !important;
+        color: #374151 !important;
+        padding: 1rem !important;
+        border-radius: 6px !important;
+        border: 1px solid #e5e7eb !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -499,29 +811,29 @@ def display_test_case(test_case, index):
         st.markdown(f"""
         <div class="test-case-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h4 style="color: var(--primary-color); margin: 0; font-size: 1.25rem;">🧪 Test Case {index}: {test_case.get('Test_ID', 'N/A')}</h4>
+                <h4 style="color: #6366f1; margin: 0; font-size: 1.25rem;">🧪 Test Case {index}: {test_case.get('Test_ID', 'N/A')}</h4>
                 <span class="badge" style="background: {type_color}; color: white;">{test_type}</span>
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                 <div>
-                    <strong style="color: var(--text-light);">🎯 Feature:</strong>
-                    <p style="color: var(--text-light-secondary); margin: 0.25rem 0;">{test_case.get('Feature', 'N/A')}</p>
+                    <strong style="color: #000000;">🎯 Feature:</strong>
+                    <p style="color: #374151; margin: 0.25rem 0;">{test_case.get('Feature', 'N/A')}</p>
                 </div>
                 <div>
-                    <strong style="color: var(--text-light);">📚 Source:</strong>
-                    <p style="color: var(--text-light-secondary); margin: 0.25rem 0; font-family: monospace; font-size: 0.875rem;">{test_case.get('Grounded_In', 'NOT SPECIFIED')}</p>
+                    <strong style="color: #000000;">📚 Source:</strong>
+                    <p style="color: #374151; margin: 0.25rem 0; font-family: monospace; font-size: 0.875rem;">{test_case.get('Grounded_In', 'NOT SPECIFIED')}</p>
                 </div>
             </div>
             
             <div style="margin-bottom: 1rem;">
-                <strong style="color: var(--text-light);">📝 Scenario:</strong>
-                <p style="color: var(--text-light-secondary); margin: 0.25rem 0; line-height: 1.6;">{test_case.get('Test_Scenario', 'N/A')}</p>
+                <strong style="color: #000000;">📝 Scenario:</strong>
+                <p style="color: #374151; margin: 0.25rem 0; line-height: 1.6;">{test_case.get('Test_Scenario', 'N/A')}</p>
             </div>
             
             <div style="margin-bottom: 1rem;">
-                <strong style="color: var(--text-light);">✅ Expected Result:</strong>
-                <p style="color: var(--text-light-secondary); margin: 0.25rem 0; line-height: 1.6;">{test_case.get('Expected_Result', 'N/A')}</p>
+                <strong style="color: #000000;">✅ Expected Result:</strong>
+                <p style="color: #374151; margin: 0.25rem 0; line-height: 1.6;">{test_case.get('Expected_Result', 'N/A')}</p>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -532,9 +844,9 @@ def display_test_case(test_case, index):
             with st.expander(f"📋 View Test Steps ({len(steps)} steps)", expanded=False):
                 for i, step in enumerate(steps, 1):
                     st.markdown(f"""
-                    <div style="padding: 0.75rem; margin: 0.5rem 0; background: var(--bg-light-secondary); border-left: 3px solid var(--primary-color); border-radius: 6px;">
-                        <strong style="color: var(--primary-color);">Step {i}:</strong>
-                        <span style="color: var(--text-light); margin-left: 0.5rem;">{step}</span>
+                    <div style="padding: 0.75rem; margin: 0.5rem 0; background: #f8fafc; border-left: 3px solid #6366f1; border-radius: 6px;">
+                        <strong style="color: #6366f1;">Step {i}:</strong>
+                        <span style="color: #000000; margin-left: 0.5rem;">{step}</span>
                     </div>
                     """, unsafe_allow_html=True)
         
@@ -555,13 +867,13 @@ def create_progress_indicator(current_step, total_steps, step_names):
     st.markdown(f"""
     <div style="margin: 2rem 0;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-            <span style="font-weight: 600; color: var(--text-light);">Progress: Step {current_step} of {total_steps}</span>
+            <span style="font-weight: 600; color: #000000;">Progress: Step {current_step} of {total_steps}</span>
             <span style="font-weight: 600; color: var(--primary-color);">{int(progress * 100)}%</span>
         </div>
         <div class="progress-container">
             <div class="progress-bar" style="width: {progress * 100}%;"></div>
         </div>
-        <div style="font-size: 0.875rem; color: var(--text-light-secondary); margin-top: 0.5rem;">
+        <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
             📍 {step_names[current_step - 1] if current_step <= len(step_names) else 'Complete'}
         </div>
     </div>
@@ -570,57 +882,19 @@ def create_progress_indicator(current_step, total_steps, step_names):
 def create_interactive_metric(icon, label, value, delta=None, help_text=None):
     """Create an interactive metric card"""
     delta_html = f'<div style="color: var(--success-color); font-size: 0.875rem;">↗️ {delta}</div>' if delta else ''
-    help_html = f'<div style="color: var(--text-light-secondary); font-size: 0.75rem; margin-top: 0.25rem;">{help_text}</div>' if help_text else ''
+    help_html = f'<div style="color: #6b7280; font-size: 0.75rem; margin-top: 0.25rem;">{help_text}</div>' if help_text else ''
     
     st.markdown(f"""
     <div class="interactive-card" style="text-align: center; padding: 1.5rem;">
         <div style="font-size: 2rem; margin-bottom: 0.5rem;">{icon}</div>
-        <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-light); margin-bottom: 0.25rem;">{value}</div>
-        <div style="font-size: 0.875rem; color: var(--text-light-secondary);">{label}</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #000000; margin-bottom: 0.25rem;">{value}</div>
+        <div style="font-size: 0.875rem; color: #6b7280;">{label}</div>
         {delta_html}
         {help_html}
     </div>
     """, unsafe_allow_html=True)
 
-def create_feature_showcase():
-    """Create an interactive feature showcase"""
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.markdown("""
-        <div class="interactive-card" style="text-align: center; padding: 1.5rem; cursor: pointer;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
-            <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Smart Upload</h4>
-            <p style="color: var(--text-light-secondary); font-size: 0.875rem;">AI-powered document processing with preview</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div class="interactive-card" style="text-align: center; padding: 1.5rem; cursor: pointer;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🧠</div>
-            <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">AI Generation</h4>
-            <p style="color: var(--text-light-secondary); font-size: 0.875rem;">Context-aware test case creation</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div class="interactive-card" style="text-align: center; padding: 1.5rem; cursor: pointer;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
-            <h4 style="color: var(--secondary-color); margin-bottom: 0.5rem;">Automation</h4>
-            <p style="color: var(--text-light-secondary); font-size: 0.875rem;">Ready-to-run Selenium scripts</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown("""
-        <div class="interactive-card" style="text-align: center; padding: 1.5rem; cursor: pointer;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-            <h4 style="color: var(--info-color); margin-bottom: 0.5rem;">Analytics</h4>
-            <p style="color: var(--text-light-secondary); font-size: 0.875rem;">Real-time insights & metrics</p>
-        </div>
-        """, unsafe_allow_html=True)
+# Platform Capabilities feature showcase removed as requested
 
 def main():
     """Main Streamlit application with enhanced interactivity."""
@@ -639,9 +913,7 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # Feature Showcase
-    st.markdown("### 🚀 Platform Capabilities")
-    create_feature_showcase()
+    # Platform capabilities removed as requested
     
     # Check backend status
     if not check_backend_status():
@@ -735,7 +1007,7 @@ def main():
             st.error("❌ Backend Connection Failed")
     
     # Interactive Tabs Interface
-    tab1, tab2, tab3, tab4 = st.tabs(["📄 Document Upload", "🧪 Generate Tests", "🤖 Create Scripts", "📊 Analytics Dashboard"])
+    tab1, tab2, tab3 = st.tabs(["📄 Document Upload", "🧪 Generate Tests", "🤖 Create Scripts"])
     
     with tab1:
         st.markdown("### 📄 Smart Document Processing")
@@ -746,8 +1018,8 @@ def main():
         with col1:
             st.markdown("""
             <div class="interactive-card">
-                <h4 style="color: var(--primary-color); margin-bottom: 1rem;">📋 Upload Requirements</h4>
-                <ul style="color: var(--text-light-secondary);">
+                <h4 style="color: #6366f1; margin-bottom: 1rem;">📋 Upload Requirements</h4>
+                <ul style="color: #000000;">
                     <li>✅ 3-5 support documents (MD, TXT, PDF, JSON)</li>
                     <li>🌐 1 checkout.html file (for e-commerce testing)</li>
                     <li>📏 Max file size: 10MB per file</li>
@@ -770,68 +1042,68 @@ def main():
                     file_icon = {'text/markdown': '📝', 'text/plain': '📄', 'application/pdf': '📕', 
                                 'application/json': '📊', 'text/html': '🌐'}.get(file.type, '📄')
                     
-                    with st.expander(f\"{file_icon} {file.name} ({file.size:,} bytes)\"):
+                    with st.expander(f"{file_icon} {file.name} ({file.size:,} bytes)"):
                         if file.type in ['text/plain', 'text/markdown'] or file.name.endswith('.md'):
                             try:
                                 content = str(file.read(), "utf-8")
                                 preview = content[:500] + "..." if len(content) > 500 else content
-                                st.markdown(f\"\"\"
-                                <div style=\"background: #f8fafc; padding: 1rem; border-radius: 6px; border-left: 3px solid var(--primary-color);\">
-                                    <pre style=\"color: var(--text-light); font-size: 0.875rem; white-space: pre-wrap;\">{preview}</pre>
+                                st.markdown(f"""
+                                <div style="background: #f8fafc; padding: 1rem; border-radius: 6px; border-left: 3px solid #6366f1;">
+                                    <pre style="color: #000000; font-size: 0.875rem; white-space: pre-wrap;">{preview}</pre>
                                 </div>
-                                \"\"\", unsafe_allow_html=True)
+                                """, unsafe_allow_html=True)
                                 file.seek(0)
                             except:
-                                st.info(\"📄 Text file detected - content will be processed\")
+                                st.info("📄 Text file detected - content will be processed")
                         else:
-                            st.info(f\"📄 {file.type} file detected - ready for processing\")
+                            st.info(f"📄 {file.type} file detected - ready for processing")
         
         with col2:
-            st.markdown(\"### ⚙️ Configuration\")
+            st.markdown("### ⚙️ Configuration")
             
             clear_existing = st.checkbox(
-                \"🗑️ Clear Existing Data\", 
-                help=\"Remove all previous documents from knowledge base\"
+                "🗑️ Clear Existing Data", 
+                help="Remove all previous documents from knowledge base"
             )
             
             # Enhanced build button
             build_disabled = not uploaded_files
             
-            st.markdown(\"\"\"
-            <div class=\"interactive-card\" style=\"text-align: center;\">
-                <h4 style=\"color: var(--success-color);\">🚀 Ready to Build</h4>
-                <p style=\"color: var(--text-light-secondary); font-size: 0.875rem;\">Process documents and create knowledge base</p>
+            st.markdown("""
+            <div class="interactive-card" style="text-align: center;">
+                <h4 style="color: #10b981;">🚀 Ready to Build</h4>
+                <p style="color: #000000; font-size: 0.875rem;">Process documents and create knowledge base</p>
             </div>
-            \"\"\" if uploaded_files else \"\"\"
-            <div class=\"warning-card\" style=\"text-align: center;\">
-                <h4>⚠️ Files Required</h4>
-                <p style=\"font-size: 0.875rem;\">Upload documents to continue</p>
+            """ if uploaded_files else """
+            <div class="warning-card" style="text-align: center;">
+                <h4 style="color: #000000;">⚠️ Files Required</h4>
+                <p style="color: #000000; font-size: 0.875rem;">Upload documents to continue</p>
             </div>
-            \"\"\", unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
             
-            if st.button(\"🚀 Build Knowledge Base\", type=\"primary\", use_container_width=True, disabled=build_disabled):
+            if st.button("🚀 Build Knowledge Base", type="primary", use_container_width=True, disabled=build_disabled):
                 if uploaded_files:
-                with st.spinner("Processing documents and building knowledge base..."):
-                    result = upload_files_to_backend(uploaded_files, clear_existing)
-                
-                if result and result.get('success'):
-                    st.markdown(f"""
-                    <div class="success-box">
-                        <strong>✅ {result.get('message', 'Success')}</strong><br>
-                        📊 Total Chunks: {result.get('total_chunks', 0)}<br>
-                        📁 Files Processed: {', '.join(result.get('files_processed', []))}
-                    </div>
-                    """, unsafe_allow_html=True)
+                    with st.spinner("Processing documents and building knowledge base..."):
+                        result = upload_files_to_backend(uploaded_files, clear_existing)
                     
-                    # Store in session state
-                    st.session_state.knowledge_base_built = True
-                else:
-                    st.markdown("""
-                    <div class="error-box">
-                        <strong>❌ Failed to build knowledge base</strong><br>
-                        Please check your files and try again.
-                    </div>
-                    """, unsafe_allow_html=True)
+                    if result and result.get('success'):
+                        st.markdown(f"""
+                        <div class="success-box">
+                            <strong>✅ {result.get('message', 'Success')}</strong><br>
+                            📊 Total Chunks: {result.get('total_chunks', 0)}<br>
+                            📁 Files Processed: {', '.join(result.get('files_processed', []))}
+                        </div>
+                        """, unsafe_allow_html=True)
+                        
+                        # Store in session state
+                        st.session_state.knowledge_base_built = True
+                    else:
+                        st.markdown("""
+                        <div class="error-box">
+                            <strong>❌ Failed to build knowledge base</strong><br>
+                            Please check your files and try again.
+                        </div>
+                        """, unsafe_allow_html=True)
             else:
                 st.warning("Please upload files before building the knowledge base.")
     
