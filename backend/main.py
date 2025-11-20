@@ -51,9 +51,16 @@ app = FastAPI(
 )
 
 # Add CORS middleware
+origins = ["*"] if os.getenv("ENVIRONMENT") == "development" else [
+    "https://*.streamlit.app",
+    "https://*.streamlitapp.com", 
+    "http://localhost:8501",
+    "http://localhost:3000"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -62,7 +69,11 @@ app.add_middleware(
 # Initialize components
 document_parser = DocumentParser()
 text_chunker = TextChunker(chunk_size=1000, overlap=200)
-vector_db = VectorDatabase(persist_directory="./vectordb")
+
+# Use temporary directory for cloud deployments
+vector_db_path = os.getenv("VECTOR_DB_PATH", "./vectordb")
+os.makedirs(vector_db_path, exist_ok=True)
+vector_db = VectorDatabase(persist_directory=vector_db_path)
 
 # Log which vector database implementation is being used
 vector_db_type = type(vector_db).__name__
@@ -394,11 +405,15 @@ async def search_documents(query: str, limit: int = 5):
 if __name__ == "__main__":
     import uvicorn
     
+    # Get port from environment for cloud deployment
+    port = int(os.getenv("PORT", 8000))
+    reload = os.getenv("ENVIRONMENT", "development") != "production"
+    
     # Run the server
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8000,
-        reload=True,
+        port=port,
+        reload=reload,
         log_level="info"
     )

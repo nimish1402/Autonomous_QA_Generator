@@ -1,0 +1,13 @@
+# Railway Backend Deployment
+# This file configures the backend service for Railway deployment
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/status"
+healthcheckTimeout = 300
+
+[env]
+PORT = "8000"

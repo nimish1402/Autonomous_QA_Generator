@@ -23,8 +23,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Backend URL
-BACKEND_URL = "http://localhost:8000"
+# Backend URL - Configure based on environment
+import os
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def inject_modern_css():
     """Inject comprehensive modern CSS with adaptive theming"""
