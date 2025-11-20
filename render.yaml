@@ -3,8 +3,12 @@ services:
     name: autonomous-qa-backend
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    region: oregon
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: |
+      cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1
     healthCheckPath: "/status"
     envVars:
       - key: GEMINI_API_KEY
@@ -13,3 +17,13 @@ services:
         value: production
       - key: DEBUG
         value: "false"
+      - key: LOG_LEVEL
+        value: "INFO"
+      - key: VECTOR_DB_PATH
+        value: "/tmp/vectordb"
+      - key: MAX_TOKENS
+        value: "2000"
+      - key: TEMPERATURE
+        value: "0.1"
+      - key: GEMINI_MODEL
+        value: "gemini-2.0-flash"
