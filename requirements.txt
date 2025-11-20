@@ -1,16 +1,16 @@
 # Core Framework
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-streamlit==1.28.2
-requests==2.31.0
-pandas==2.1.4
-python-dotenv==1.0.0
-pydantic==2.5.0
-python-multipart==0.0.6
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+streamlit>=1.28.0
+requests>=2.31.0
+pandas>=2.2.0
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+python-multipart>=0.0.6
 
 # Document Processing
-PyPDF2==3.0.1
-beautifulsoup4==4.12.2
+PyPDF2>=3.0.1
+beautifulsoup4>=4.12.2
 
 # Vector Database
 # ChromaDB for semantic similarity search (recommended)
@@ -21,8 +21,8 @@ sentence-transformers>=2.2.0
 # Note: Application falls back to simple keyword-based search if ChromaDB unavailable
 
 # Selenium and Web Testing
-selenium==4.16.0
-webdriver-manager==4.0.1
+selenium>=4.16.0
+webdriver-manager>=4.0.1
 
 # LLM Integration (Install based on your provider)
 # Google Gemini (Recommended - currently configured):
