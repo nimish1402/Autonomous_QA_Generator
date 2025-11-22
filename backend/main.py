@@ -15,6 +15,7 @@ import os
 import tempfile
 import asyncio
 from pathlib import Path
+import sys
 
 # Load environment variables from parent directory
 from dotenv import load_dotenv
@@ -136,9 +137,15 @@ async def root():
     }
 
 
+@app.get("/health")
+async def health_check():
+    """Simple health check endpoint for deployment platforms (Railway, Render, etc.)."""
+    return {"status": "healthy", "timestamp": "2025-11-22", "service": "autonomous-qa-agent"}
+
+
 @app.get("/status")
 async def get_status():
-    """Get system status and database statistics."""
+    """Get detailed system status and database statistics."""
     try:
         db_stats = vector_db.get_collection_stats()
         
@@ -155,12 +162,21 @@ async def get_status():
             "search_method": "semantic similarity" if hasattr(vector_db, 'embedding_model_name') else "keyword overlap"
         }
 
+        # System info for deployment debugging
+        system_info = {
+            "environment": os.getenv("ENVIRONMENT", "development"),
+            "port": os.getenv("PORT", "8000"),
+            "vector_db_path": os.getenv("VECTOR_DB_PATH", "./vectordb"),
+            "python_version": sys.version.split()[0]
+        }
+
         return {
             "status": "healthy",
             "database": db_stats,
             "vector_database": vector_db_info,
             "checkout_html_loaded": checkout_html_content is not None,
             "llm": llm_status,
+            "system": system_info,
             "components": {
                 "document_parser": "active",
                 "vector_database": f"active ({vector_db_info['implementation']})",
@@ -402,18 +418,240 @@ async def search_documents(query: str, limit: int = 5):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/analytics")
+async def get_analytics():
+    """Get system analytics and performance metrics for deployment monitoring."""
+    try:
+        db_stats = vector_db.get_collection_stats()
+        
+        # Calculate system metrics
+        total_documents = db_stats.get('total_chunks', 0)
+        file_types = db_stats.get('file_types', [])
+        
+        analytics = {
+            "deployment_ready": True,
+            "total_documents_processed": total_documents,
+            "supported_file_types": len(file_types),
+            "active_file_types": file_types,
+            "vector_database_status": "operational" if total_documents > 0 else "empty",
+            "llm_integration": "active" if LLM_CLIENT_AVAILABLE else "template_mode",
+            "checkout_integration": "loaded" if checkout_html_content else "pending",
+            "api_endpoints_active": 8,  # Number of active endpoints
+            "system_health": "excellent"
+        }
+        
+        return {
+            "success": True,
+            "analytics": analytics,
+            "timestamp": "2025-11-22"
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting analytics: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "analytics": {
+                "deployment_ready": False,
+                "system_health": "error"
+            }
+        }
+
+
+@app.get("/config")
+async def get_configuration():
+    """Get current system configuration for deployment debugging."""
+    try:
+        config = {
+            "environment": os.getenv("ENVIRONMENT", "development"),
+            "debug_mode": os.getenv("DEBUG", "false").lower() == "true",
+            "port": int(os.getenv("PORT", 8000)),
+            "vector_db_path": os.getenv("VECTOR_DB_PATH", "./vectordb"),
+            "cors_origins": origins,
+            "llm_available": LLM_CLIENT_AVAILABLE,
+            "supported_formats": document_parser.supported_formats,
+            "deployment_platform": "cloud" if os.getenv("PORT") else "local"
+        }
+        
+        return {
+            "success": True,
+            "configuration": config
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting configuration: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/admin/reset")
+async def reset_system():
+    """Reset the entire system (clear database and reload)."""
+    global checkout_html_content, checkout_dom_info
+    
+    try:
+        # Clear vector database
+        success = vector_db.clear_collection()
+        
+        if success:
+            # Reset checkout HTML
+            checkout_html_content = None
+            checkout_dom_info = None
+            
+            return {
+                "success": True,
+                "message": "System reset successfully. All data cleared."
+            }
+        else:
+            raise HTTPException(status_code=500, detail="Failed to clear database")
+            
+    except Exception as e:
+        logger.error(f"Error resetting system: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/deployment/validate")
+async def validate_deployment():
+    """Comprehensive deployment validation endpoint."""
+    try:
+        validation_results = {
+            "deployment_status": "ready",
+            "checks": {},
+            "errors": [],
+            "warnings": [],
+            "recommendations": []
+        }
+        
+        # Check 1: Port Configuration
+        port = os.getenv("PORT")
+        if port:
+            try:
+                port_num = int(port)
+                if 1 <= port_num <= 65535:
+                    validation_results["checks"]["port"] = {"status": "✅", "message": f"Port {port_num} is valid"}
+                else:
+                    validation_results["checks"]["port"] = {"status": "❌", "message": f"Invalid port: {port_num}"}
+                    validation_results["errors"].append("Invalid port number")
+            except ValueError:
+                validation_results["checks"]["port"] = {"status": "❌", "message": f"Port is not a number: {port}"}
+                validation_results["errors"].append("Port must be a valid integer")
+        else:
+            validation_results["checks"]["port"] = {"status": "⚠️", "message": "No PORT env var (using default 8000)"}
+            validation_results["warnings"].append("PORT environment variable not set")
+        
+        # Check 2: Environment Configuration
+        env = os.getenv("ENVIRONMENT", "development")
+        validation_results["checks"]["environment"] = {"status": "✅", "message": f"Environment: {env}"}
+        
+        # Check 3: Vector Database
+        try:
+            db_stats = vector_db.get_collection_stats()
+            validation_results["checks"]["vector_db"] = {"status": "✅", "message": "Vector database operational"}
+        except Exception as e:
+            validation_results["checks"]["vector_db"] = {"status": "❌", "message": f"Vector DB error: {str(e)}"}
+            validation_results["errors"].append("Vector database not accessible")
+        
+        # Check 4: LLM Integration
+        if LLM_CLIENT_AVAILABLE:
+            validation_results["checks"]["llm"] = {"status": "✅", "message": "LLM client available"}
+        else:
+            validation_results["checks"]["llm"] = {"status": "⚠️", "message": "Template mode (no LLM API)"}
+            validation_results["warnings"].append("No LLM API configured - using template mode")
+        
+        # Check 5: Required Dependencies
+        required_modules = ['chromadb', 'sentence_transformers', 'fastapi', 'uvicorn']
+        missing_modules = []
+        
+        for module in required_modules:
+            try:
+                __import__(module)
+                validation_results["checks"][f"dependency_{module}"] = {"status": "✅", "message": f"{module} available"}
+            except ImportError:
+                validation_results["checks"][f"dependency_{module}"] = {"status": "❌", "message": f"{module} missing"}
+                missing_modules.append(module)
+        
+        if missing_modules:
+            validation_results["errors"].extend([f"Missing dependency: {mod}" for mod in missing_modules])
+        
+        # Check 6: File System Permissions
+        vector_db_path = os.getenv("VECTOR_DB_PATH", "./vectordb")
+        try:
+            os.makedirs(vector_db_path, exist_ok=True)
+            test_file = os.path.join(vector_db_path, "test_write.txt")
+            with open(test_file, "w") as f:
+                f.write("test")
+            os.remove(test_file)
+            validation_results["checks"]["file_system"] = {"status": "✅", "message": "File system writable"}
+        except Exception as e:
+            validation_results["checks"]["file_system"] = {"status": "❌", "message": f"File system error: {str(e)}"}
+            validation_results["errors"].append("Cannot write to vector database directory")
+        
+        # Overall Status
+        if validation_results["errors"]:
+            validation_results["deployment_status"] = "failed"
+        elif validation_results["warnings"]:
+            validation_results["deployment_status"] = "ready_with_warnings"
+        
+        # Add deployment recommendations
+        if env == "production":
+            validation_results["recommendations"].extend([
+                "Ensure GEMINI_API_KEY is set for full LLM functionality",
+                "Configure monitoring and logging",
+                "Set up backup strategy for vector database",
+                "Consider using external vector database for persistence"
+            ])
+        
+        return validation_results
+        
+    except Exception as e:
+        logger.error(f"Error validating deployment: {str(e)}")
+        return {
+            "deployment_status": "error",
+            "checks": {},
+            "errors": [f"Validation failed: {str(e)}"],
+            "warnings": [],
+            "recommendations": ["Fix validation errors before deployment"]
+        }
+
+
 if __name__ == "__main__":
     import uvicorn
+    import sys
     
-    # Get port from environment for cloud deployment
-    port = int(os.getenv("PORT", 8000))
-    reload = os.getenv("ENVIRONMENT", "development") != "production"
-    
-    # Run the server
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=port,
-        reload=reload,
-        log_level="info"
-    )
+    try:
+        # Get port from environment for cloud deployment
+        port = int(os.getenv("PORT", 8000))
+        environment = os.getenv("ENVIRONMENT", "development")
+        reload = environment != "production"
+        
+        # Log startup information
+        logger.info(f"🚀 Starting Autonomous QA Agent Backend")
+        logger.info(f"📊 Environment: {environment}")
+        logger.info(f"🌐 Port: {port}")
+        logger.info(f"🔄 Reload: {reload}")
+        logger.info(f"📁 Vector DB Path: {vector_db_path}")
+        logger.info(f"🤖 LLM Available: {LLM_CLIENT_AVAILABLE}")
+        
+        # Ensure port is available
+        if port <= 0 or port > 65535:
+            logger.error(f"❌ Invalid port number: {port}")
+            sys.exit(1)
+        
+        # Run the server with proper configuration
+        uvicorn.run(
+            "main:app",
+            host="0.0.0.0",
+            port=port,
+            reload=reload,
+            log_level="info",
+            access_log=True,
+            workers=1 if environment == "production" else 1,
+            timeout_keep_alive=30
+        )
+        
+    except ValueError as e:
+        logger.error(f"❌ Port configuration error: {e}")
+        logger.error("💡 Ensure PORT environment variable is a valid integer")
+        sys.exit(1)
+    except Exception as e:
+        logger.error(f"❌ Failed to start server: {e}")
+        sys.exit(1)

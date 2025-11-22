@@ -33,6 +33,11 @@ google-generativeai>=0.3.0
 # anthropic>=0.3.0           # For Claude
 # transformers>=4.21.0       # For HuggingFace models
 
+# Deployment and Production Dependencies
+gunicorn>=21.2.0           # Production WSGI server (alternative to uvicorn)
+httpx>=0.25.0             # Enhanced HTTP client for async requests
+aiofiles>=23.2.0          # Async file operations
+
 # Development Dependencies (optional)
 # pytest==7.4.3
 # pytest-asyncio==0.21.1
