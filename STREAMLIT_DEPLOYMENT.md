@@ -37,12 +37,13 @@ git push origin main
 #### **D. Set Secrets (Environment Variables)**
 In the Streamlit Cloud dashboard, go to **"Secrets"** and add:
 ```toml
-[secrets]
 BACKEND_URL = "https://YOUR-RENDER-APP-NAME.onrender.com"
 ENVIRONMENT = "production"
 ```
 
 **Replace `YOUR-RENDER-APP-NAME` with your actual Render app URL!**
+
+**⚠️ Important**: The `GEMINI_API_KEY` should be set in your **Render backend**, not Streamlit Cloud. The frontend connects to your backend via API calls.
 
 ### **3. Deploy**
 Click **"Deploy!"** - Streamlit will build and deploy your frontend.
