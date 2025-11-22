@@ -1,327 +1,740 @@
 # 🤖 Autonomous QA Agent
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.28-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io)
-[![Selenium](https://img.shields.io/badge/Selenium-4.16-43B02A?logo=selenium&logoColor=white)](https://selenium.dev)
-[![Google Gemini](https://img.shields.io/badge/Google_Gemini-AI-4285F4?logo=google&logoColor=white)](https://ai.google.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Stars](https://img.shields.io/github/stars/YOUR_USERNAME/autonomous-qa-agent?style=social)](https://github.com/YOUR_USERNAME/autonomous-qa-agent)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104%2B-green.svg)](https://fastapi.tiangolo.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28%2B-red.svg)](https://streamlit.io/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Deploy](https://img.shields.io/badge/Deploy-Render%20%7C%20Streamlit-success.svg)](https://render.com)
 
-A complete working application that ingests support documents + a target webpage (checkout.html), builds a knowledge base, generates context-grounded test cases, and produces runnable Selenium Python scripts with strict adherence to provided documentation.
+**AI-Powered Test Case Generation & Selenium Automation Platform**
 
-## 🎯 Features
+An intelligent QA automation system that transforms your documentation into comprehensive test cases and generates ready-to-run Selenium scripts using advanced AI and semantic document understanding.
 
-- **Document Ingestion**: Supports MD, TXT, PDF, JSON, HTML files
-- **Knowledge Base**: Vector database with semantic similarity search using Chroma
-- **Test Case Generation**: Context-grounded test cases with strict grounding enforcement
-- **Selenium Script Generation**: Runnable Python scripts with proper selectors and assertions
-- **Web Interface**: Complete Streamlit frontend with file upload and download capabilities
-- **REST API**: FastAPI backend with comprehensive endpoints
+---
 
-## 🏗️ Architecture
+## 🎯 **Overview**
 
+The Autonomous QA Agent revolutionizes software testing by automatically generating contextually-aware test cases from your project documentation. It combines the power of Google's Gemini AI with semantic document processing to create comprehensive test suites and automation scripts.
+
+### 🌟 **Key Capabilities**
+
+- **📄 Smart Document Processing**: Multi-format support (MD, TXT, PDF, JSON, HTML)
+- **🧠 AI-Powered Generation**: Context-grounded test cases using Google Gemini
+- **🔍 Semantic Search**: ChromaDB-powered document understanding
+- **🤖 Selenium Automation**: Ready-to-run Python test scripts
+- **🎨 Modern UI**: Adaptive Streamlit interface with dark/light themes
+- **☁️ Cloud-Ready**: Optimized for Render and Streamlit Cloud deployment
+- **⚡ Memory Efficient**: Lightweight fallback for resource-constrained environments
+
+---
+
+## 🏗️ **System Architecture**
+
+### 🔧 **High-Level Architecture Diagram**
+
+```mermaid
+graph TB
+    subgraph "User Interface Layer"
+        A[Streamlit Frontend] --> B[Enhanced UI Components]
+        B --> C[Theme Adapter]
+        C --> D[File Upload System]
+    end
+    
+    subgraph "API Gateway Layer"
+        E[FastAPI Backend] --> F[CORS Middleware]
+        F --> G[Request Validation]
+        G --> H[Authentication Layer]
+    end
+    
+    subgraph "Core Processing Engine"
+        I[Document Parser] --> J[Text Chunker]
+        K[Vector Database Manager] --> L[Semantic Search Engine]
+        M[LLM Agent Orchestrator] --> N[Test Case Generator]
+        O[Selenium Script Builder] --> P[Code Generator]
+    end
+    
+    subgraph "AI Integration Layer"
+        Q[Google Gemini API] --> R[Response Processor]
+        S[LLM Client Manager] --> T[Provider Abstraction]
+        U[Prompt Engineering] --> V[Context Manager]
+    end
+    
+    subgraph "Data Storage Layer"
+        W[ChromaDB Vector Store] --> X[Embeddings Repository]
+        Y[SimpleVectorDB Fallback] --> Z[Keyword Index]
+        AA[File Storage System] --> BB[Document Cache]
+    end
+    
+    subgraph "External Integration Layer"
+        CC[HTML Parser & Analyzer] --> DD[DOM Element Extraction]
+        EE[WebDriver Manager] --> FF[Selenium Script Runtime]
+        GG[Health Monitoring] --> HH[Performance Metrics]
+    end
+    
+    A --> E
+    G --> I
+    G --> M
+    G --> O
+    I --> K
+    M --> Q
+    N --> S
+    K --> W
+    K --> Y
+    CC --> O
+    O --> EE
+    
+    style A fill:#e1f5fe
+    style E fill:#f3e5f5
+    style Q fill:#fff3e0
+    style W fill:#e8f5e8
 ```
-autonomous-qa-agent/
-├── backend/           # FastAPI REST API server
-├── frontend/          # Streamlit web interface
-├── models/            # LLM agents for test case and script generation
-├── utils/             # Document parsing, vector DB, HTML parsing utilities
-├── data/              # Sample documents and checkout.html
-├── vectordb/          # Chroma vector database storage
-└── config/            # Configuration files
+
+### 🔄 **Data Flow Architecture**
+
+```mermaid
+flowchart LR
+    subgraph "Input Processing"
+        A1[Documents Upload] --> A2[Format Detection]
+        A2 --> A3[Content Extraction]
+        A3 --> A4[Text Chunking]
+    end
+    
+    subgraph "Knowledge Base Construction"
+        A4 --> B1[Embeddings Generation]
+        B1 --> B2[Vector Indexing]
+        B2 --> B3[Similarity Engine]
+    end
+    
+    subgraph "AI Processing Pipeline"
+        B3 --> C1[Query Processing]
+        C1 --> C2[Context Retrieval]
+        C2 --> C3[Prompt Engineering]
+        C3 --> C4[AI Generation]
+    end
+    
+    subgraph "Output Generation"
+        C4 --> D1[Test Case Structuring]
+        D1 --> D2[Script Generation]
+        D2 --> D3[Code Optimization]
+        D3 --> D4[Final Output]
+    end
+    
+    style A1 fill:#e3f2fd
+    style B3 fill:#f3e5f5
+    style C4 fill:#fff3e0
+    style D4 fill:#e8f5e8
 ```
 
-## 🚀 Quick Start
+### 🏛️ **Component Architecture**
 
-### Prerequisites
+#### **1. Frontend Layer (Streamlit)**
+```
+Streamlit Application (app_enhanced.py)
+├── UI Components
+│   ├── Hero Header with Branding
+│   ├── Interactive File Uploader
+│   ├── Progress Indicators
+│   ├── Test Case Display Cards
+│   └── Script Download Interface
+├── Theme Management
+│   ├── Adaptive CSS Variables
+│   ├── Dark/Light Mode Detection
+│   ├── Real-time Theme Switching
+│   └── Responsive Design
+└── State Management
+    ├── Session State Handling
+    ├── File Processing Status
+    ├── Generated Test Cases Cache
+    └── Backend Connection Status
+```
 
-- Python 3.8 or higher
-- pip package manager
+#### **2. Backend API (FastAPI)**
+```
+FastAPI Application (main.py)
+├── REST Endpoints
+│   ├── /health - Health Check
+│   ├── /status - System Status
+│   ├── /ingest - Document Upload
+│   ├── /generate_testcases - AI Generation
+│   ├── /generate_script - Script Creation
+│   └── /analytics - Performance Metrics
+├── Middleware Stack
+│   ├── CORS Handler
+│   ├── Request Validation (Pydantic)
+│   ├── Error Handling
+│   └── Response Formatting
+└── Background Tasks
+    ├── Document Processing
+    ├── Vector Database Updates
+    └── Cache Management
+```
 
-### Installation
+#### **3. AI Processing Engine**
+```
+LLM Agent System (models/llm_agent.py)
+├── Test Case Generator
+│   ├── Context Extraction
+│   ├── Grounding Enforcement
+│   ├── Template Fallback
+│   └── JSON Structure Validation
+├── Selenium Script Generator
+│   ├── DOM Analysis
+│   ├── Selector Optimization
+│   ├── Code Template Engine
+│   └── Best Practices Integration
+└── Provider Management
+    ├── Google Gemini Integration
+    ├── OpenAI Compatibility
+    ├── Local Model Support
+    └── Graceful Fallback
+```
 
-1. **Clone or download the project:**
+#### **4. Data Processing Pipeline**
+```
+Document Processing System
+├── Multi-Format Parser (utils/document_parser.py)
+│   ├── Markdown Parser
+│   ├── PDF Text Extraction
+│   ├── JSON Structure Analysis
+│   ├── HTML Content Extraction
+│   └── Plain Text Processing
+├── Text Chunking Engine (utils/document_parser.py)
+│   ├── Semantic Chunking
+│   ├── Overlap Management
+│   ├── Context Preservation
+│   └── Metadata Attachment
+└── Vector Database Manager (utils/vector_database.py)
+    ├── ChromaDB Integration
+    ├── Embedding Generation
+    ├── Similarity Search
+    └── Fallback to SimpleVectorDB
+```
+
+### 🌐 **Deployment Architecture**
+
+```mermaid
+graph TB
+    subgraph "Production Environment"
+        subgraph "Frontend (Streamlit Cloud)"
+            A[Streamlit App] --> B[Static Assets]
+            A --> C[Environment Config]
+        end
+        
+        subgraph "Backend (Render)"
+            D[FastAPI Server] --> E[Uvicorn ASGI]
+            E --> F[Memory-Optimized Runtime]
+            F --> G[Health Monitoring]
+        end
+        
+        subgraph "External Services"
+            H[Google Gemini API] --> I[Rate Limiting]
+            J[Vector Database] --> K[Persistent Storage]
+        end
+    end
+    
+    A --> D
+    D --> H
+    D --> J
+    
+    subgraph "Development Environment"
+        L[Local Frontend] --> M[Local Backend]
+        M --> N[Local Vector DB]
+        M --> O[Development AI API]
+    end
+    
+    style A fill:#ff6b6b
+    style D fill:#4ecdc4
+    style H fill:#45b7d1
+    style J fill:#96ceb4
+```
+
+---
+
+## 🚀 **Quick Start Guide**
+
+### 📋 **Prerequisites**
+
+- **Python**: 3.9 or higher
+- **API Key**: Google Gemini API access
+- **Memory**: Minimum 2GB RAM (512MB for lightweight deployment)
+- **Storage**: 1GB free disk space
+
+### 🛠️ **Installation**
+
+1. **Clone Repository**
    ```bash
-   cd autonomous-qa-agent
+   git clone https://github.com/nimish1402/Autonomous_QA_Generator.git
+   cd Autonomous_QA_Generator
    ```
 
-2. **Install dependencies:**
+2. **Environment Setup**
    ```bash
+   # Create virtual environment
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   
+   # Install dependencies
    pip install -r requirements.txt
    ```
 
-3. **Configure LLM Integration (Optional but Recommended):**
-   
-   The system works in two modes:
-   
-   **🤖 AI-Powered Mode** (Recommended): Uses real LLM APIs for sophisticated test case and script generation
-   
-   **📋 Template Mode** (Default): Uses predefined templates for basic functionality
-   
-   **Quick LLM Setup:**
+3. **Configuration**
    ```bash
-   python setup_llm.py
+   # Copy environment template
+   cp .env.template .env
+   
+   # Edit .env file with your configuration
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ENVIRONMENT=development
+   DEBUG=true
+   BACKEND_URL=http://localhost:8000
    ```
-   
-   **Manual Setup Options:**
-   
-   - **Google Gemini (Recommended - Free Tier):**
-     ```bash
-     pip install google-generativeai>=0.3.0
-     export GEMINI_API_KEY=your_key_here
-     # Get free API key: https://makersuite.google.com/app/apikey
-     ```
-   
-   - **OpenAI GPT:**
-     ```bash
-     pip install openai>=1.0.0
-     export OPENAI_API_KEY=your_key_here
-     ```
-   
-   - **Anthropic Claude:**
-     ```bash
-     pip install anthropic>=0.3.0
-     export ANTHROPIC_API_KEY=your_key_here
-     ```
-   
-   - **Local Ollama (Free):**
-     ```bash
-     # Install from https://ollama.ai/
-     ollama pull llama2
-     # No API key needed!
-     ```
-   
-   - **HuggingFace:**
-     ```bash
-     pip install transformers>=4.21.0
-     export HUGGINGFACE_TOKEN=your_token_here  # Optional
-     ```
 
-### Running the Application
+### 🎯 **Running the Application**
 
-1. **Start the FastAPI backend:**
+#### **Option 1: Full Setup (Recommended)**
+
+1. **Start Backend Server**
    ```bash
    cd backend
    python main.py
    ```
-   The backend will start on `http://localhost:8000`
+   *Backend will be available at http://localhost:8000*
 
-2. **Start the Streamlit frontend (in a new terminal):**
+2. **Start Frontend Interface**
    ```bash
-   cd frontend  
-   streamlit run app.py
+   # New terminal
+   cd frontend
+   streamlit run app_enhanced.py
    ```
-   The frontend will open in your browser at `http://localhost:8501`
+   *Frontend will be available at http://localhost:8501*
 
-## 📋 Usage Guide
-
-### Step 1: Document Ingestion
-
-1. **Upload Files**: Use the Streamlit interface to upload:
-   - 3-5 support documents (MD, TXT, PDF, JSON, HTML)
-   - 1 checkout.html file (sample provided in `data/checkout.html`)
-
-2. **Build Knowledge Base**: Click "Build Knowledge Base" to process documents
-   - Files are parsed and chunked
-   - Embeddings are generated using sentence-transformers
-   - Chunks are stored in Chroma vector database
-
-### Step 2: Test Case Generation
-
-1. **Enter Query**: Describe what test cases you want to generate:
-   ```
-   "Generate all positive and negative test cases for the discount code feature"
-   "Create test cases for form validation on the checkout page"
-   "Generate test cases for the payment processing workflow"
+#### **Option 2: Streamlit Only (Quick Demo)**
+   ```bash
+   streamlit run streamlit_app.py
    ```
 
-2. **Generate Test Cases**: The agent will:
-   - Perform semantic search on your knowledge base
-   - Generate structured test cases in JSON format
-   - Ensure strict grounding to your provided documents
-   - Display test cases with source references
+### 📊 **Health Check**
 
-### Step 3: Selenium Script Generation
-
-1. **Select Test Case**: Choose from the generated test cases
-2. **Generate Script**: Click "Generate Selenium Script"
-3. **Download**: Get a complete, runnable Python script with:
-   - Proper imports (selenium, webdriver-manager, unittest)
-   - WebDriverWait for robust element handling
-   - Selectors extracted from your checkout.html
-   - Assertions matching expected results
-   - Comments explaining element selection strategy
-
-## 📁 Sample Files Provided
-
-The `data/` directory contains sample files for testing:
-
-- `checkout.html`: Complete e-commerce checkout page with forms, validation, and discount functionality
-- `requirements.md`: Detailed requirements document for checkout system
-- `testing-guide.txt`: Testing scenarios and guidelines  
-- `checkout-config.json`: Configuration and validation rules in JSON format
-
-## 🤖 LLM Integration Modes
-
-### AI-Powered Mode (Recommended)
-When configured with an LLM API, the system provides:
-- **Sophisticated test case generation** based on natural language understanding
-- **Context-aware Selenium scripts** with intelligent selector usage
-- **Advanced reasoning** about test scenarios and edge cases
-- **Better grounding** to document context and requirements
-
-### Template Mode (Fallback)
-Without LLM configuration, the system uses:
-- **Rule-based test case generation** using keyword matching
-- **Template-based Selenium scripts** with standard patterns
-- **Predefined scenarios** for common testing patterns
-- **Still fully functional** but less sophisticated
-
-**Current Status Check:** The system automatically detects available LLM configurations and displays the current mode in both the frontend UI and API status endpoint.
-
-## 🔧 API Endpoints
-
-The FastAPI backend provides these endpoints:
-
-- `POST /ingest` - Upload and process documents
-- `POST /generate_testcases` - Generate test cases from query
-- `POST /generate_script` - Generate Selenium script from test case
-- `GET /status` - Get system status and database statistics
-- `GET /` - API information
-
-### Example API Usage
-
-```python
-import requests
-
-# Upload documents
-files = [('files', open('requirements.md', 'rb'))]
-response = requests.post('http://localhost:8000/ingest', files=files)
-
-# Generate test cases  
-query = {"query": "Generate test cases for discount code feature"}
-response = requests.post('http://localhost:8000/generate_testcases', json=query)
-
-# Generate Selenium script
-test_case = {"Test_ID": "TC001", "Feature": "Discount Code", ...}
-script_request = {"test_case": test_case}
-response = requests.post('http://localhost:8000/generate_script', json=script_request)
+Verify your installation:
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/status
 ```
 
-## 🎯 Key Implementation Details
+---
 
-### Grounding Enforcement
+## 💡 **Usage Guide**
 
-The system strictly enforces grounding by:
-- Only referencing information found in uploaded documents
-- Displaying "NOT SPECIFIED" when information is missing
-- Including source filenames with each generated test case
-- Using only selectors found in the actual checkout.html DOM
+### 🔄 **Workflow Overview**
 
-### Test Case Structure
+```mermaid
+flowchart LR
+    A[Upload Documents] --> B[Build Knowledge Base]
+    B --> C[Generate Test Cases]
+    C --> D[Create Selenium Scripts]
+    D --> E[Download & Execute]
+    
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#fff3e0
+    style D fill:#e8f5e8
+    style E fill:#fce4ec
+```
 
-Generated test cases follow this JSON format:
-```json
+### 📝 **Step-by-Step Process**
+
+#### **1. Document Upload**
+- **Supported Formats**: `.md`, `.txt`, `.pdf`, `.json`, `.html`
+- **Required Files**: 
+  - 3-5 documentation files (requirements, user stories, etc.)
+  - 1 `checkout.html` file (for UI automation)
+- **File Size Limit**: 10MB per file
+
+#### **2. Knowledge Base Building**
+The system processes your documents through:
+- **Text Extraction**: Parse content from various formats
+- **Chunking**: Split into manageable segments with context overlap
+- **Vectorization**: Create semantic embeddings for search
+- **Indexing**: Store in vector database for fast retrieval
+
+#### **3. Test Case Generation**
+Query examples:
+```
+"Generate positive and negative test cases for discount code functionality"
+"Create validation tests for the checkout process"
+"Generate edge cases for user registration form"
+```
+
+#### **4. Script Generation**
+- **Selenium Scripts**: Python-based WebDriver automation
+- **Element Detection**: Automatic selector identification
+- **Test Structure**: Complete unittest framework setup
+- **Error Handling**: Robust exception management
+
+### 🎮 **Interactive Features**
+
+- **Progress Tracking**: Real-time operation status
+- **File Preview**: Document content inspection
+- **Test Case Cards**: Rich test case visualization  
+- **Script Download**: One-click script export
+- **Analytics Dashboard**: System performance metrics
+
+---
+
+## 🌐 **Deployment Guide**
+
+### 🚀 **Backend Deployment (Render)**
+
+1. **Automatic Deployment**
+   - Connect your GitHub repository to Render
+   - Use `render.yaml` configuration (included)
+   - Set environment variables in Render dashboard
+
+2. **Manual Configuration**
+   ```yaml
+   # render.yaml highlights
+   services:
+     - type: web
+       name: autonomous-qa-backend
+       env: python
+       plan: free  # 512MB memory limit
+       buildCommand: pip install -r requirements-light.txt
+       startCommand: python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+       healthCheckPath: "/health"
+   ```
+
+3. **Environment Variables** (Set in Render Dashboard)
+   ```
+   GEMINI_API_KEY=your_api_key
+   ENVIRONMENT=production
+   GEMINI_MODEL=gemini-1.5-flash
+   MEMORY_LIMIT=512
+   ```
+
+### 🎨 **Frontend Deployment (Streamlit Cloud)**
+
+1. **Direct Deployment**
+   - Connect GitHub repository to Streamlit Cloud
+   - Use `streamlit_app.py` as main file
+   - Configure advanced settings
+
+2. **Configuration**
+   ```toml
+   # .streamlit/config.toml
+   [theme]
+   primaryColor = "#6366f1"
+   backgroundColor = "#FFFFFF"
+   secondaryBackgroundColor = "#F8FAFC"
+   textColor = "#1F2937"
+   ```
+
+3. **Environment Variables**
+   ```
+   BACKEND_URL=https://your-backend-url.onrender.com
+   ```
+
+---
+
+## 📚 **API Reference**
+
+### 🔗 **Core Endpoints**
+
+#### **Health & Status**
+```http
+GET /health
+GET /status
+GET /config
+GET /analytics
+```
+
+#### **Document Management**
+```http
+POST /ingest
+Content-Type: multipart/form-data
+
+Parameters:
+- files: List of uploaded files
+- clear_existing: boolean (optional)
+```
+
+#### **Test Generation**
+```http
+POST /generate_testcases
+Content-Type: application/json
+
+Body:
 {
-  "Test_ID": "TC001",
-  "Feature": "Discount Code", 
-  "Test_Scenario": "Apply valid discount code",
-  "Steps": ["1. Navigate to checkout", "2. Enter code", ...],
-  "Expected_Result": "Discount should be applied",
-  "Grounded_In": "requirements.md",
-  "Type": "Positive",
-  "Notes": "Based on discount functionality requirements"
+  "query": "Generate test cases for checkout functionality"
+}
+
+Response:
+{
+  "success": true,
+  "test_cases": [...],
+  "grounded_sources": [...],
+  "message": "Generated 3 test cases"
 }
 ```
 
-### Selenium Script Quality
+#### **Script Generation**
+```http
+POST /generate_script
+Content-Type: application/json
 
-Generated scripts include:
-- Explicit waits with WebDriverWait
-- Robust element selection (ID > name > class > xpath)
-- Proper error handling and assertions
-- Detailed comments explaining selector choices
-- Complete test structure with setUp and tearDown
+Body:
+{
+  "test_case": {
+    "Test_ID": "TC001",
+    "Feature": "Checkout",
+    "Test_Scenario": "Valid payment processing",
+    ...
+  }
+}
+```
 
-## 🔍 Troubleshooting
+### 📊 **Response Schemas**
 
-### Backend Issues
-- **Port 8000 already in use**: Change port in `backend/main.py`
-- **Dependencies missing**: Run `pip install -r requirements.txt`
-- **ChromaDB errors**: Delete `vectordb/` folder and restart
+#### **Test Case Structure**
+```json
+{
+  "Test_ID": "TC001",
+  "Feature": "User Authentication",
+  "Test_Scenario": "Login with valid credentials",
+  "Steps": [
+    "1. Navigate to login page",
+    "2. Enter valid username and password",
+    "3. Click login button",
+    "4. Verify successful login"
+  ],
+  "Expected_Result": "User should be logged in successfully",
+  "Grounded_In": "requirements.md",
+  "Type": "Positive",
+  "Notes": "Core functionality test"
+}
+```
 
-### Frontend Issues  
-- **Backend not connected**: Ensure FastAPI server is running
-- **File upload fails**: Check file types (MD, TXT, PDF, JSON, HTML only)
-- **Streamlit port conflict**: Use `streamlit run app.py --server.port 8502`
+---
 
-### Generated Script Issues
-- **Selectors not found**: Update the base URL in generated script to point to your actual checkout.html file
-- **WebDriver errors**: Install ChromeDriver: `pip install webdriver-manager`
-- **Import errors**: Ensure selenium is installed: `pip install selenium`
+## ⚙️ **Configuration**
 
-## 🧪 Running Generated Tests
+### 🌐 **Environment Variables**
 
-1. **Update the script**:
-   - Change `base_url` to point to your checkout.html file
-   - Modify test data as needed
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `GEMINI_API_KEY` | Google Gemini API key | - | Yes |
+| `GEMINI_MODEL` | Model version | `gemini-1.5-flash` | No |
+| `ENVIRONMENT` | Runtime environment | `development` | No |
+| `DEBUG` | Debug logging | `false` | No |
+| `BACKEND_URL` | Backend service URL | `http://localhost:8000` | No |
+| `MAX_TOKENS` | Maximum AI response tokens | `2000` | No |
+| `TEMPERATURE` | AI creativity level | `0.1` | No |
+| `MEMORY_LIMIT` | Memory optimization (MB) | `0` | No |
+| `DISABLE_EMBEDDINGS` | Use lightweight mode | `false` | No |
 
-2. **Install Selenium dependencies**:
+### 📁 **Project Structure**
+```
+autonomous-qa-agent/
+├── backend/                 # FastAPI backend service
+│   ├── main.py             # API server entry point
+│   └── vectordb/           # Runtime vector database
+├── frontend/               # Streamlit user interface
+│   └── app_enhanced.py     # Main UI application
+├── config/                 # Configuration modules
+│   ├── __init__.py
+│   └── llm_config.py       # LLM provider configuration
+├── models/                 # AI agent implementations
+│   ├── __init__.py
+│   └── llm_agent.py        # Test case and script generators
+├── utils/                  # Utility modules
+│   ├── __init__.py
+│   ├── document_parser.py  # Multi-format document processing
+│   ├── html_parser.py      # HTML DOM analysis
+│   ├── llm_client.py       # AI client abstraction
+│   ├── simple_vector_db.py # Lightweight vector database
+│   └── vector_database.py  # ChromaDB integration
+├── data/                   # Sample data and test files
+│   ├── Checkout.html       # Sample checkout page
+│   ├── requirements.md     # Sample requirements
+│   └── testing-guide.txt   # Sample testing guide
+├── .streamlit/             # Streamlit configuration
+│   ├── config.toml         # Theme and UI settings
+│   └── secrets.toml        # Environment variables (local)
+├── requirements.txt        # Full Python dependencies
+├── requirements-light.txt  # Memory-optimized dependencies
+├── render.yaml            # Render deployment configuration
+├── Procfile               # Alternative deployment config
+├── runtime.txt            # Python version specification
+├── streamlit_app.py       # Streamlit Cloud entry point
+└── .env.template          # Environment variables template
+```
+
+---
+
+## 🛡️ **Technology Stack**
+
+### 🔧 **Core Technologies**
+
+| Component | Technology | Version | Purpose |
+|-----------|------------|---------|---------|
+| **Backend** | FastAPI | 0.104+ | REST API server |
+| **Frontend** | Streamlit | 1.28+ | Interactive UI |
+| **AI Engine** | Google Gemini | 2.0-flash | Test case generation |
+| **Vector DB** | ChromaDB | 0.4+ | Semantic document search |
+| **Automation** | Selenium | 4.16+ | Web automation scripts |
+| **HTTP Client** | Requests | 2.31+ | API communication |
+| **Data Processing** | Pandas | 2.2+ | Data manipulation |
+
+### 🏗️ **Architecture Patterns**
+
+- **Microservices**: Separated frontend and backend services
+- **Event-Driven**: Asynchronous document processing
+- **Plugin Architecture**: Modular LLM provider system
+- **Fallback Strategy**: Graceful degradation for resource constraints
+- **Adaptive UI**: Theme-aware responsive design
+
+---
+
+## 🧪 **Testing & Quality**
+
+### 🔍 **Testing Strategy**
+
+#### **Backend Testing**
+```bash
+# Unit tests
+python -m pytest backend/tests/
+
+# Integration tests
+python -m pytest backend/tests/integration/
+
+# API testing
+python -m pytest backend/tests/api/
+```
+
+#### **Frontend Testing**
+```bash
+# Streamlit app testing
+streamlit run frontend/app_enhanced.py --server.headless=true
+```
+
+### 📊 **Quality Metrics**
+
+- **Code Coverage**: >85% target
+- **Type Safety**: MyPy strict mode
+- **Performance**: <2s API response time
+- **Memory Usage**: <512MB for lightweight deployment
+
+---
+
+## 🤝 **Contributing**
+
+### 🔄 **Development Workflow**
+
+1. **Fork & Clone**
    ```bash
-   pip install selenium webdriver-manager
+   git clone https://github.com/your-username/Autonomous_QA_Generator.git
+   cd Autonomous_QA_Generator
    ```
 
-3. **Run the test**:
+2. **Setup Development Environment**
    ```bash
-   python generated_test_script.py
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   pip install -r requirements.txt
    ```
 
-## 📊 System Requirements
+3. **Create Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-- **Memory**: 4GB+ recommended (for embeddings and vector database)
-- **Storage**: 1GB+ for vector database and model cache
-- **Network**: Internet connection for downloading sentence-transformer models
+4. **Make Changes & Test**
+   ```bash
+   # Run tests
+   pytest
+   
+   # Format code
+   black .
+   ```
 
-## 🔒 Security Notes
+5. **Submit Pull Request**
 
-- This is a demo application for local use
-- In production, add authentication and input validation
-- Sanitize uploaded files before processing
-- Use environment variables for configuration
+### 🏷️ **Commit Convention**
+```
+feat: add new AI model support
+fix: resolve memory optimization issue  
+docs: update API documentation
+test: add integration test coverage
+```
 
-## 🛠️ Extending the System
+---
 
-### Adding New Document Types
-1. Extend `DocumentParser` in `utils/document_parser.py`
-2. Add new file type to frontend file uploader
-3. Update parsing logic for new format
+## 🐛 **Troubleshooting**
 
-### Custom LLM Integration
-1. Modify `TestCaseGenerator` in `models/llm_agent.py`
-2. Add API calls to your preferred LLM service
-3. Update prompt templates for better results
+### ❗ **Common Issues**
 
-### Additional Selenium Frameworks
-1. Extend `SeleniumScriptGenerator` to support other frameworks
-2. Add templates for pytest, robot framework, etc.
-3. Modify script generation logic accordingly
+#### **1. Memory Issues (Render Free Tier)**
+```bash
+# Solution: Use lightweight requirements
+pip install -r requirements-light.txt
+DISABLE_EMBEDDINGS=true
+MEMORY_LIMIT=512
+```
 
-## 📝 License
+#### **2. Gemini API Quota Exceeded**
+```bash
+# Switch to different model
+GEMINI_MODEL=gemini-1.5-flash
+```
 
-This project is for educational and demonstration purposes. Feel free to modify and extend according to your needs.
+#### **3. Import Errors**
+```bash
+# Install missing dependencies
+pip install -r requirements.txt
+```
 
-## 🤝 Contributing
+### 🔧 **Debug Mode**
+```bash
+DEBUG=true
+LOG_LEVEL=DEBUG
+```
 
-This is a complete implementation following the exact specifications provided. The system demonstrates:
+---
 
-- ✅ Complete document ingestion with multiple file types
-- ✅ Vector database with semantic search  
-- ✅ Strict grounding enforcement with source references
-- ✅ Structured JSON test case generation
-- ✅ Runnable Selenium Python script generation
-- ✅ Complete web interface with Streamlit
-- ✅ REST API with FastAPI
-- ✅ End-to-end workflow from documents to executable scripts
+## 📄 **License**
 
-The application successfully fulfills all requirements with no hallucination and strict adherence to provided documentation.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 **Acknowledgments**
+
+### 🔗 **Built With**
+- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern Python web framework
+- **[Streamlit](https://streamlit.io/)** - Interactive web applications
+- **[Google Gemini](https://ai.google.dev/)** - Advanced AI language model
+- **[ChromaDB](https://www.trychroma.com/)** - Vector database for AI
+- **[Selenium](https://selenium-python.readthedocs.io/)** - Web automation
+
+### 👨‍💻 **Created By**
+- **Developer**: [nimish1402](https://github.com/nimish1402)
+- **Repository**: [Autonomous_QA_Generator](https://github.com/nimish1402/Autonomous_QA_Generator)
+
+---
+
+## 📞 **Support & Contact**
+
+### 🆘 **Getting Support**
+
+- **📋 Issues**: [GitHub Issues](https://github.com/nimish1402/Autonomous_QA_Generator/issues)
+- **💡 Features**: [Feature Requests](https://github.com/nimish1402/Autonomous_QA_Generator/issues/new)
+- **📖 Documentation**: Check this README and code comments
+
+---
+
+<div align="center">
+
+**🚀 Ready to revolutionize your QA process? Start building intelligent test suites today!**
+
+[⭐ Star this repo](https://github.com/nimish1402/Autonomous_QA_Generator) | [🍴 Fork it](https://github.com/nimish1402/Autonomous_QA_Generator/fork) | [📋 Report Issues](https://github.com/nimish1402/Autonomous_QA_Generator/issues)
+
+</div>
