@@ -74,14 +74,28 @@ text_chunker = TextChunker(chunk_size=1000, overlap=200)
 # Use temporary directory for cloud deployments
 vector_db_path = os.getenv("VECTOR_DB_PATH", "./vectordb")
 os.makedirs(vector_db_path, exist_ok=True)
-vector_db = VectorDatabase(persist_directory=vector_db_path)
 
-# Log which vector database implementation is being used
-vector_db_type = type(vector_db).__name__
-if hasattr(vector_db, 'embedding_model_name'):
-    logger.info(f"🧠 Using ChromaDB with semantic embeddings (model: {vector_db.embedding_model_name})")
+# Initialize vector database with memory optimization
+disable_embeddings = os.getenv("DISABLE_EMBEDDINGS", "false").lower() == "true"
+memory_limit = int(os.getenv("MEMORY_LIMIT", "0"))
+
+if disable_embeddings or memory_limit > 0 and memory_limit < 1024:
+    # Use simple vector database for low memory environments
+    logger.info("🔤 Using SimpleVectorDatabase (memory optimized)")
+    from utils.simple_vector_db import SimpleVectorDatabase
+    vector_db = SimpleVectorDatabase(persist_directory=vector_db_path)
 else:
-    logger.info(f"🔤 Using SimpleVectorDatabase with keyword matching")
+    # Use full ChromaDB with embeddings
+    try:
+        vector_db = VectorDatabase(persist_directory=vector_db_path)
+        if hasattr(vector_db, 'embedding_model_name'):
+            logger.info(f"🧠 Using ChromaDB with semantic embeddings (model: {vector_db.embedding_model_name})")
+        else:
+            logger.info(f"🔤 Using SimpleVectorDatabase with keyword matching")
+    except Exception as e:
+        logger.warning(f"Failed to initialize ChromaDB: {e}. Falling back to SimpleVectorDatabase")
+        from utils.simple_vector_db import SimpleVectorDatabase
+        vector_db = SimpleVectorDatabase(persist_directory=vector_db_path)
 
 test_case_generator = TestCaseGenerator()
 selenium_generator = SeleniumScriptGenerator()

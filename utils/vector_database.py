@@ -42,32 +42,55 @@ class VectorDatabase:
             collection_name: Name of the collection
             embedding_model_name: Name of the sentence transformer model
         """
-        if chromadb is None:
-            raise ImportError("chromadb is required. Install with: pip install chromadb")
+        # Check for memory optimization flags
+        self.lazy_loading = os.getenv('LAZY_LOADING', 'false').lower() == 'true'
+        self.disable_embeddings = os.getenv('DISABLE_EMBEDDINGS', 'false').lower() == 'true'
         
-        if SentenceTransformer is None:
-            raise ImportError("sentence-transformers is required. Install with: pip install sentence-transformers")
+        if chromadb is None and not self.disable_embeddings:
+            raise ImportError("chromadb is required. Install with: pip install chromadb")
         
         self.persist_directory = persist_directory
         self.collection_name = collection_name
         self.embedding_model_name = embedding_model_name
         
+        # Initialize models as None for lazy loading
+        self.embedding_model = None
+        self.embedding_function = None
+        self.client = None
+        self.collection = None
+        
         # Create persist directory if it doesn't exist
         os.makedirs(persist_directory, exist_ok=True)
         
+        # Initialize immediately if not using lazy loading and embeddings not disabled
+        if not self.lazy_loading and not self.disable_embeddings:
+            self._initialize_chroma()
+        elif self.disable_embeddings:
+            # Use fallback to simple vector DB
+            from utils.simple_vector_db import SimpleVectorDatabase
+            self._fallback_db = SimpleVectorDatabase(persist_directory)
+            
+    def _initialize_chroma(self):
+        """Initialize Chroma components lazily."""
+        if self.disable_embeddings:
+            return
+            
+        if SentenceTransformer is None:
+            raise ImportError("sentence-transformers is required. Install with: pip install sentence-transformers")
+            
         # Initialize Chroma client
-        self.client = chromadb.PersistentClient(path=persist_directory)
+        self.client = chromadb.PersistentClient(path=self.persist_directory)
         
         # Initialize embedding model
-        self.embedding_model = SentenceTransformer(embedding_model_name)
+        self.embedding_model = SentenceTransformer(self.embedding_model_name)
         
         # Create embedding function for Chroma
         self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name=embedding_model_name
+            model_name=self.embedding_model_name
         )
         
         # Get or create collection with robust error handling
-        self.collection = self._get_or_create_collection(collection_name)
+        self.collection = self._get_or_create_collection(self.collection_name)
         
         self.logger = logging.getLogger(__name__)
     
@@ -118,6 +141,14 @@ class VectorDatabase:
             return {"success": False, "message": "No chunks provided", "added_count": 0}
         
         try:
+            # Use fallback if embeddings disabled
+            if self.disable_embeddings:
+                return self._fallback_db.add_documents(chunks)
+            
+            # Initialize if lazy loading
+            if self.lazy_loading and self.collection is None:
+                self._initialize_chroma()
+                
             # Prepare data for Chroma
             documents = []
             metadatas = []
@@ -182,6 +213,14 @@ class VectorDatabase:
             List of search results with text, metadata, and similarity scores
         """
         try:
+            # Use fallback if embeddings disabled
+            if self.disable_embeddings:
+                return self._fallback_db.search(query, n_results)
+            
+            # Initialize if lazy loading
+            if self.lazy_loading and self.collection is None:
+                self._initialize_chroma()
+                
             # Perform search
             results = self.collection.query(
                 query_texts=[query],

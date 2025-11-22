@@ -151,6 +151,10 @@ class SimpleVectorDatabase:
             self.logger.error(error_msg)
             return {"success": False, "message": error_msg, "added_count": 0}
     
+    def search(self, query: str, n_results: int = 5) -> List[Dict]:
+        """Alias for similarity_search for compatibility."""
+        return self.similarity_search(query, n_results)
+    
     def similarity_search(self, 
                          query: str, 
                          n_results: int = 5,

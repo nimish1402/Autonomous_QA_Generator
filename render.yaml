@@ -6,16 +6,15 @@ services:
     region: oregon
     buildCommand: |
       python --version
+      echo "Installing lightweight dependencies for 512MB memory limit..."
       pip install --upgrade pip
-      pip install -r requirements.txt
+      pip install -r requirements-light.txt
     startCommand: |
-      echo "Starting Autonomous QA Agent Backend..."
-      echo "Current directory: $(pwd)"
+      echo "Starting Autonomous QA Agent Backend (Memory Optimized)..."
+      echo "Available memory: $(free -h 2>/dev/null || echo 'Memory info unavailable')"
       echo "Python version: $(python --version)"
-      echo "Directory contents:" && ls -la
-      echo "Backend directory:" && ls -la backend/ || echo "Backend directory not found"
-      echo "Starting server on port $PORT"
-      python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 30
+      echo "Starting lightweight server on port $PORT"
+      python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 30 --max-requests 100
     healthCheckPath: "/health"
     envVars:
       - key: GEMINI_API_KEY
@@ -36,3 +35,13 @@ services:
         value: "gemini-2.0-flash-exp"
       - key: PYTHONPATH
         value: "/opt/render/project/src"
+      - key: LAZY_LOADING
+        value: "true"
+      - key: DISABLE_EMBEDDINGS
+        value: "true"
+      - key: MEMORY_LIMIT
+        value: "512"
+      - key: MAX_FILE_SIZE_MB
+        value: "5"
+      - key: MAX_WORKERS
+        value: "1"

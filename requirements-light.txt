@@ -1,0 +1,33 @@
+# Memory-Optimized Requirements for Render Free Tier (512MB)
+# This version removes heavy ML dependencies to fit memory constraints
+
+# Core Framework (Essential)
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+python-multipart>=0.0.6
+
+# Document Processing (Lightweight)
+PyPDF2>=3.0.1
+beautifulsoup4>=4.12.2
+
+# LLM Integration (API-based, no local models)
+google-generativeai>=0.3.0
+
+# Selenium and Web Testing (Essential for QA)
+selenium>=4.16.0
+webdriver-manager>=4.0.1
+
+# Deployment Dependencies
+gunicorn>=21.2.0
+httpx>=0.25.0
+aiofiles>=23.2.0
+
+# Data Processing (Lightweight)
+pandas>=2.2.0
+
+# Note: ChromaDB and sentence-transformers are REMOVED to save memory
+# Application automatically falls back to keyword-based search
+# This reduces memory usage from ~800MB to ~150MB
