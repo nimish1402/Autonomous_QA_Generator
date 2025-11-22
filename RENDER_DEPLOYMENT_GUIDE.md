@@ -407,12 +407,72 @@ ENVIRONMENT = production
 - **Deployment Validation**: `https://your-service.onrender.com/deployment/validate`
 - **API Documentation**: `https://your-service.onrender.com/docs` (FastAPI auto-docs)
 
+### **render.yaml Configuration Issues**
+
+If you're having issues with `render.yaml`, here are the key improvements made:
+
+#### **✅ Fixed Issues:**
+1. **Python Version**: Updated to `3.12` (matches your local environment)
+2. **Persistent Storage**: Added disk mount for vector database
+3. **Environment Variables**: Optimized paths and model settings
+4. **Timeout Settings**: Added `--timeout-keep-alive 30` for stability
+5. **Model**: Updated to `gemini-2.0-flash-exp` (latest experimental model)
+
+#### **🔧 Key Configuration Details:**
+```yaml
+pythonVersion: "3.12"              # Match your local Python version
+disk:                              # Persistent storage for vector DB
+  name: autonomous-qa-disk
+  mountPath: /opt/render/project/data
+  sizeGB: 1
+envVars:
+  - key: VECTOR_DB_PATH           # Persistent storage path
+    value: "/opt/render/project/data/vectordb"
+  - key: GEMINI_MODEL             # Latest model
+    value: "gemini-2.0-flash-exp"
+  - key: PYTHONPATH               # Python module path
+    value: "/opt/render/project/src"
+```
+
+### **Common Deployment Issues & Solutions**
+
+#### **🚨 Build Failures**
+```bash
+# Issue: Python version mismatch
+Solution: render.yaml now uses Python 3.12
+
+# Issue: Missing dependencies  
+Solution: Check requirements.txt includes all packages
+```
+
+#### **🚨 Runtime Errors**
+```bash
+# Issue: Module not found
+Solution: PYTHONPATH environment variable added
+
+# Issue: Vector DB storage lost
+Solution: Persistent disk storage configured
+
+# Issue: Timeout on startup
+Solution: Added timeout-keep-alive parameter
+```
+
+#### **🚨 Health Check Failures**
+```bash
+# Test health endpoint locally first:
+curl http://localhost:8000/health
+
+# Check Render logs for startup errors
+# Verify environment variables are set
+```
+
 ### **Getting Help**
-1. Check Render logs first
-2. Use deployment validation endpoint
-3. Test individual endpoints
-4. Check environment variables
-5. Review this guide step-by-step
+1. **Check Render logs first** - Look for specific error messages
+2. **Use deployment validation endpoint** - `https://your-service.onrender.com/deployment/validate`
+3. **Test individual endpoints** - Start with `/health` then `/status`
+4. **Check environment variables** - Especially `GEMINI_API_KEY`
+5. **Review this guide step-by-step** - Ensure all steps completed
+6. **Test locally** - Run `python deploy.py test` to verify local functionality
 
 ---
 

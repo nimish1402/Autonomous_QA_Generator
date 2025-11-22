@@ -4,17 +4,23 @@ services:
     env: python
     plan: free
     region: oregon
-    pythonVersion: 3.11.7
+    pythonVersion: "3.12"
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
     startCommand: |
-      echo "Starting server on port $PORT"
+      echo "Starting Autonomous QA Agent Backend..."
       echo "Current directory: $(pwd)"
+      echo "Python version: $(python --version)"
       echo "Directory contents:" && ls -la
-      echo "Backend directory:" && ls -la backend/
-      python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1
+      echo "Backend directory:" && ls -la backend/ || echo "Backend directory not found"
+      echo "Starting server on port $PORT"
+      python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 30
     healthCheckPath: "/health"
+    disk:
+      name: autonomous-qa-disk
+      mountPath: /opt/render/project/data
+      sizeGB: 1
     envVars:
       - key: GEMINI_API_KEY
         sync: false
@@ -25,10 +31,12 @@ services:
       - key: LOG_LEVEL
         value: "INFO"
       - key: VECTOR_DB_PATH
-        value: "/tmp/vectordb"
+        value: "/opt/render/project/data/vectordb"
       - key: MAX_TOKENS
         value: "2000"
       - key: TEMPERATURE
         value: "0.1"
       - key: GEMINI_MODEL
-        value: "gemini-2.0-flash"
+        value: "gemini-2.0-flash-exp"
+      - key: PYTHONPATH
+        value: "/opt/render/project/src"
