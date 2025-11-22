@@ -31,7 +31,7 @@ def inject_enhanced_css():
     /* Import Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
-    /* Root Variables */
+    /* Root Variables for Light Mode */
     :root {
         --primary-color: #6366f1;
         --primary-dark: #4f46e5;
@@ -41,14 +41,50 @@ def inject_enhanced_css():
         --error-color: #ef4444;
         --info-color: #3b82f6;
         --bg-light: #ffffff;
-        --text-light: #000000;
-        --text-secondary: #000000;
-        --text-dark: #000000;
+        --text-primary: #1f2937;
+        --text-secondary: #374151;
         --border-light: #e5e7eb;
         --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         --border-radius: 12px;
         --transition: all 0.3s ease;
+    }
+    
+    /* Dark Mode Variables - Auto-detect based on Streamlit theme */
+    [data-theme="dark"], .stApp[data-theme="dark"] {
+        --primary-color: #818cf8;
+        --primary-dark: #6366f1;
+        --secondary-color: #a78bfa;
+        --success-color: #34d399;
+        --warning-color: #fbbf24;
+        --error-color: #f87171;
+        --info-color: #60a5fa;
+        --bg-light: #1f2937;
+        --text-primary: #f9fafb;
+        --text-secondary: #d1d5db;
+        --border-light: #374151;
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Auto-detect dark mode based on Streamlit's body background */
+    body[style*="color-scheme: dark"], 
+    .stApp:has([data-testid="stAppViewContainer"][style*="color-scheme: dark"]),
+    .stApp[style*="background-color: rgb(14, 17, 23)"],
+    .stApp[style*="background-color: #0e1117"] {
+        --primary-color: #818cf8;
+        --primary-dark: #6366f1;
+        --secondary-color: #a78bfa;
+        --success-color: #34d399;
+        --warning-color: #fbbf24;
+        --error-color: #f87171;
+        --info-color: #60a5fa;
+        --bg-light: #1f2937;
+        --text-primary: #ffffff;
+        --text-secondary: #d1d5db;
+        --border-light: #374151;
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
     }
     
     /* Hide Streamlit Elements */
@@ -108,15 +144,15 @@ def inject_enhanced_css():
         margin: 1.5rem 0;
         box-shadow: var(--shadow-md);
         transition: var(--transition);
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .enhanced-card h4 {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .enhanced-card p {
-        color: #000000 !important;
+        color: var(--text-secondary) !important;
     }
     
     .enhanced-card:hover {
@@ -141,15 +177,24 @@ def inject_enhanced_css():
         border-radius: var(--border-radius);
         padding: 1.5rem;
         margin: 1rem 0;
-        color: #000000 !important;
+        color: #92400e !important;
+    }
+    
+    /* Dark mode warning card */
+    [data-theme="dark"] .warning-card,
+    body[style*="color-scheme: dark"] .warning-card,
+    .stApp[style*="background-color: rgb(14, 17, 23)"] .warning-card,
+    .stApp[style*="background-color: #0e1117"] .warning-card {
+        background: linear-gradient(135deg, #451a03 0%, #92400e 100%);
+        color: #fbbf24 !important;
     }
     
     .warning-card h4 {
-        color: #000000 !important;
+        color: inherit !important;
     }
     
     .warning-card p {
-        color: #000000 !important;
+        color: inherit !important;
     }
     
     .error-card {
@@ -163,26 +208,26 @@ def inject_enhanced_css():
     
     /* Test Case Cards */
     .test-case-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-        border: 2px solid #e2e8f0;
+        background: var(--bg-light);
+        border: 2px solid var(--border-light);
         border-radius: var(--border-radius);
         padding: 2rem;
         margin: 1.5rem 0;
         box-shadow: var(--shadow-md);
         transition: var(--transition);
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .test-case-card div {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .test-case-card strong {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .test-case-card span {
-        color: #000000 !important;
+        color: var(--text-secondary) !important;
     }
     
     .test-case-card:hover {
@@ -208,80 +253,63 @@ def inject_enhanced_css():
         box-shadow: var(--shadow-lg);
     }
     
-    /* Sidebar Styling */
-    .css-1d391kg {
-        background-color: #ffffff !important;
-    }
-    
-    .sidebar .sidebar-content {
-        background-color: #ffffff !important;
-    }
-    
+    /* Sidebar Styling - Adaptive */
     section[data-testid="stSidebar"] {
-        background-color: #ffffff !important;
+        background-color: var(--bg-light) !important;
     }
     
     section[data-testid="stSidebar"] > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
+        background-color: var(--bg-light) !important;
+        color: var(--text-primary) !important;
     }
     
-    /* Sidebar text styling - Force all text to black */
+    /* Sidebar text styling - Adaptive colors */
     section[data-testid="stSidebar"] * {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     section[data-testid="stSidebar"] .stMarkdown {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     section[data-testid="stSidebar"] .stMarkdown p,
     section[data-testid="stSidebar"] .stMarkdown div,
     section[data-testid="stSidebar"] .stMarkdown span {
-        color: #000000 !important;
+        color: var(--text-secondary) !important;
     }
     
     section[data-testid="stSidebar"] .stMarkdown h1,
     section[data-testid="stSidebar"] .stMarkdown h2,
     section[data-testid="stSidebar"] .stMarkdown h3,
     section[data-testid="stSidebar"] .stMarkdown h4 {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     section[data-testid="stSidebar"] .stMetric {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     section[data-testid="stSidebar"] .stMetric-value {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     section[data-testid="stSidebar"] .stMetric-label {
-        color: #000000 !important;
+        color: var(--text-secondary) !important;
     }
     
     section[data-testid="stSidebar"] .element-container {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     section[data-testid="stSidebar"] .stAlert {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
-    section[data-testid="stSidebar"] .stSuccess {
-        color: #000000 !important;
-    }
-    
-    section[data-testid="stSidebar"] .stWarning {
-        color: #000000 !important;
-    }
-    
-    section[data-testid="stSidebar"] .stInfo {
-        color: #000000 !important;
-    }
-    
+    section[data-testid="stSidebar"] .stSuccess,
+    section[data-testid="stSidebar"] .stWarning,
+    section[data-testid="stSidebar"] .stInfo,
     section[data-testid="stSidebar"] .stError {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     /* Progress Bar */
@@ -316,20 +344,20 @@ def inject_enhanced_css():
     .badge-warning { background: var(--warning-color); }
     .badge-info { background: var(--info-color); }
     
-    /* Global text color overrides */
+    /* Global text color overrides - Adaptive */
     .stMarkdown, .stText, .element-container {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .stMarkdown p, .stMarkdown div, .stMarkdown span {
-        color: #000000 !important;
+        color: var(--text-secondary) !important;
     }
     
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
-    /* Tab styling */
+    /* Tab styling - Adaptive */
     .stTabs [data-baseweb="tab-list"] {
         gap: 24px;
         background: rgba(255, 255, 255, 0.1);
@@ -337,6 +365,15 @@ def inject_enhanced_css():
         padding: 8px;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Dark mode tab list */
+    [data-theme="dark"] .stTabs [data-baseweb="tab-list"],
+    body[style*="color-scheme: dark"] .stTabs [data-baseweb="tab-list"],
+    .stApp[style*="background-color: rgb(14, 17, 23)"] .stTabs [data-baseweb="tab-list"],
+    .stApp[style*="background-color: #0e1117"] .stTabs [data-baseweb="tab-list"] {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .stTabs [data-baseweb="tab"] {
@@ -349,33 +386,42 @@ def inject_enhanced_css():
         font-weight: 500;
         border: 1px solid transparent;
         transition: all 0.3s ease;
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .stTabs [data-baseweb="tab"] * {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .stTabs [aria-selected="true"] {
-        background: rgba(255, 255, 255, 0.9) !important;
-        border: 1px solid rgba(74, 144, 226, 0.3) !important;
-        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2) !important;
-        color: #000000 !important;
+        background: var(--bg-light) !important;
+        border: 1px solid var(--primary-color) !important;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2) !important;
+        color: var(--text-primary) !important;
     }
     
     .stTabs [aria-selected="true"] * {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         transform: translateY(-1px);
-        color: #000000 !important;
+        color: var(--text-primary) !important;
     }
     
     .stTabs [data-baseweb="tab"]:hover * {
-        color: #000000 !important;
+        color: var(--text-primary) !important;
+    }
+    
+    /* Dark mode tab hover */
+    [data-theme="dark"] .stTabs [data-baseweb="tab"]:hover,
+    body[style*="color-scheme: dark"] .stTabs [data-baseweb="tab"]:hover,
+    .stApp[style*="background-color: rgb(14, 17, 23)"] .stTabs [data-baseweb="tab"]:hover,
+    .stApp[style*="background-color: #0e1117"] .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     /* Responsive */
@@ -385,6 +431,69 @@ def inject_enhanced_css():
         .main .block-container { margin: 0.5rem; }
     }
 </style>
+
+<script>
+    // Dynamic theme detection and CSS variable updates
+    function updateThemeVariables() {
+        const body = document.body;
+        const app = document.querySelector('.stApp');
+        const isDark = 
+            body.style.getPropertyValue('color-scheme') === 'dark' ||
+            app?.style.backgroundColor === 'rgb(14, 17, 23)' ||
+            app?.style.backgroundColor === '#0e1117' ||
+            window.getComputedStyle(body).backgroundColor === 'rgb(14, 17, 23)' ||
+            window.getComputedStyle(app || body).backgroundColor === 'rgb(14, 17, 23)';
+        
+        const root = document.documentElement;
+        
+        if (isDark) {
+            // Dark theme variables
+            root.style.setProperty('--primary-color', '#818cf8');
+            root.style.setProperty('--primary-dark', '#6366f1');
+            root.style.setProperty('--secondary-color', '#a78bfa');
+            root.style.setProperty('--success-color', '#34d399');
+            root.style.setProperty('--warning-color', '#fbbf24');
+            root.style.setProperty('--error-color', '#f87171');
+            root.style.setProperty('--info-color', '#60a5fa');
+            root.style.setProperty('--bg-light', '#1f2937');
+            root.style.setProperty('--text-primary', '#ffffff');
+            root.style.setProperty('--text-secondary', '#d1d5db');
+            root.style.setProperty('--border-light', '#374151');
+        } else {
+            // Light theme variables (default)
+            root.style.setProperty('--primary-color', '#6366f1');
+            root.style.setProperty('--primary-dark', '#4f46e5');
+            root.style.setProperty('--secondary-color', '#8b5cf6');
+            root.style.setProperty('--success-color', '#10b981');
+            root.style.setProperty('--warning-color', '#f59e0b');
+            root.style.setProperty('--error-color', '#ef4444');
+            root.style.setProperty('--info-color', '#3b82f6');
+            root.style.setProperty('--bg-light', '#ffffff');
+            root.style.setProperty('--text-primary', '#1f2937');
+            root.style.setProperty('--text-secondary', '#374151');
+            root.style.setProperty('--border-light', '#e5e7eb');
+        }
+    }
+    
+    // Initial theme detection
+    setTimeout(updateThemeVariables, 100);
+    
+    // Watch for theme changes
+    const observer = new MutationObserver(updateThemeVariables);
+    observer.observe(document.body, { 
+        attributes: true, 
+        attributeFilter: ['style', 'class'],
+        childList: true,
+        subtree: true
+    });
+    
+    // Also check when Streamlit loads
+    document.addEventListener('DOMContentLoaded', updateThemeVariables);
+    window.addEventListener('load', updateThemeVariables);
+    
+    // Periodic check for theme changes
+    setInterval(updateThemeVariables, 1000);
+</script>
 """, unsafe_allow_html=True)
 
 # Initialize CSS
@@ -404,13 +513,13 @@ def create_progress_indicator(current_step, total_steps, step_names):
     st.markdown(f"""
     <div style="margin: 2rem 0;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-            <span style="font-weight: 600; color: #000000;">Progress: Step {current_step} of {total_steps}</span>
+            <span style="font-weight: 600; color: var(--text-primary);">Progress: Step {current_step} of {total_steps}</span>
             <span style="font-weight: 600; color: var(--primary-color);">{int(progress * 100)}%</span>
         </div>
         <div class="progress-container">
             <div class="progress-bar" style="width: {progress * 100}%;"></div>
         </div>
-        <div style="font-size: 0.875rem; color: #000000; margin-top: 0.5rem;">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
             📍 {step_names[current_step - 1] if current_step <= len(step_names) else 'Complete'}
         </div>
     </div>
@@ -425,7 +534,7 @@ def create_feature_showcase():
         <div class="enhanced-card" style="text-align: center; cursor: pointer;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
             <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Smart Upload</h4>
-            <p style="color: #000000; font-size: 0.875rem;">AI-powered document processing</p>
+            <p style="color: var(--text-secondary); font-size: 0.875rem;">AI-powered document processing</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -434,7 +543,7 @@ def create_feature_showcase():
         <div class="enhanced-card" style="text-align: center; cursor: pointer;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">🧠</div>
             <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">AI Generation</h4>
-            <p style="color: #000000; font-size: 0.875rem;">Context-aware test cases</p>
+            <p style="color: var(--text-secondary); font-size: 0.875rem;">Context-aware test cases</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -443,7 +552,7 @@ def create_feature_showcase():
         <div class="enhanced-card" style="text-align: center; cursor: pointer;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
             <h4 style="color: var(--secondary-color); margin-bottom: 0.5rem;">Automation</h4>
-            <p style="color: #000000; font-size: 0.875rem;">Ready Selenium scripts</p>
+            <p style="color: var(--text-secondary); font-size: 0.875rem;">Ready Selenium scripts</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -452,7 +561,7 @@ def create_feature_showcase():
         <div class="enhanced-card" style="text-align: center; cursor: pointer;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
             <h4 style="color: var(--info-color); margin-bottom: 0.5rem;">Analytics</h4>
-            <p style="color: #000000; font-size: 0.875rem;">Real-time insights</p>
+            <p style="color: var(--text-secondary); font-size: 0.875rem;">Real-time insights</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -520,12 +629,12 @@ def display_test_case(test_case, index):
         
         <div style="margin-bottom: 1rem;">
             <strong>📝 Scenario:</strong><br>
-            <span style="color: #000000;">{test_case.get('Test_Scenario', 'N/A')}</span>
+            <span style="color: var(--text-secondary);">{test_case.get('Test_Scenario', 'N/A')}</span>
         </div>
         
         <div style="margin-bottom: 1rem;">
             <strong>✅ Expected Result:</strong><br>
-            <span style="color: #000000;">{test_case.get('Expected_Result', 'N/A')}</span>
+            <span style="color: var(--text-secondary);">{test_case.get('Expected_Result', 'N/A')}</span>
         </div>
         
         <div>
@@ -636,7 +745,7 @@ def main():
             st.markdown("""
             <div class="enhanced-card">
                 <h4 style="color: var(--primary-color);">📋 Upload Requirements</h4>
-                <ul style="color: #000000;">
+                <ul style="color: var(--text-secondary);">
                     <li>✅ 3-5 support documents (MD, TXT, PDF, JSON)</li>
                     <li>🌐 1 checkout.html file (for e-commerce testing)</li>
                     <li>📏 Max file size: 10MB per file</li>
