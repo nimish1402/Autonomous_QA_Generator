@@ -412,22 +412,25 @@ ENVIRONMENT = production
 If you're having issues with `render.yaml`, here are the key improvements made:
 
 #### **✅ Fixed Issues:**
-1. **Python Version**: Updated to `3.12` (matches your local environment)
-2. **Persistent Storage**: Added disk mount for vector database
+1. **Python Version**: Fixed invalid `pythonVersion` field, now uses `runtime.txt`
+2. **Free Tier Compatibility**: Removed disk mount (not available on free tier)
 3. **Environment Variables**: Optimized paths and model settings
 4. **Timeout Settings**: Added `--timeout-keep-alive 30` for stability
 5. **Model**: Updated to `gemini-2.0-flash-exp` (latest experimental model)
+6. **YAML Schema**: Fixed all invalid field issues
 
 #### **🔧 Key Configuration Details:**
 ```yaml
-pythonVersion: "3.12"              # Match your local Python version
-disk:                              # Persistent storage for vector DB
-  name: autonomous-qa-disk
-  mountPath: /opt/render/project/data
-  sizeGB: 1
+# Python version specified in runtime.txt (python-3.12.4)
+env: python                        # Python environment
+plan: free                         # Free tier compatible
+buildCommand: |                    # Build process
+  python --version
+  pip install --upgrade pip
+  pip install -r requirements.txt
 envVars:
-  - key: VECTOR_DB_PATH           # Persistent storage path
-    value: "/opt/render/project/data/vectordb"
+  - key: VECTOR_DB_PATH           # Temporary storage path
+    value: "/tmp/vectordb"
   - key: GEMINI_MODEL             # Latest model
     value: "gemini-2.0-flash-exp"
   - key: PYTHONPATH               # Python module path

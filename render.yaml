@@ -4,8 +4,8 @@ services:
     env: python
     plan: free
     region: oregon
-    pythonVersion: "3.12"
     buildCommand: |
+      python --version
       pip install --upgrade pip
       pip install -r requirements.txt
     startCommand: |
@@ -17,10 +17,6 @@ services:
       echo "Starting server on port $PORT"
       python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 30
     healthCheckPath: "/health"
-    disk:
-      name: autonomous-qa-disk
-      mountPath: /opt/render/project/data
-      sizeGB: 1
     envVars:
       - key: GEMINI_API_KEY
         sync: false
@@ -31,7 +27,7 @@ services:
       - key: LOG_LEVEL
         value: "INFO"
       - key: VECTOR_DB_PATH
-        value: "/opt/render/project/data/vectordb"
+        value: "/tmp/vectordb"
       - key: MAX_TOKENS
         value: "2000"
       - key: TEMPERATURE

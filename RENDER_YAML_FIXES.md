@@ -2,16 +2,15 @@
 
 ## ✅ **What Was Updated in render.yaml**
 
-### **1. Python Version Compatibility**
-- **Before**: `pythonVersion: 3.11.7`
-- **After**: `pythonVersion: "3.12"`
-- **Why**: Matches your local Python 3.12.4 environment for consistency
+### **1. Python Version Specification (CRITICAL FIX)**
+- **Before**: `pythonVersion: "3.12"` (invalid field)
+- **After**: Removed invalid field, updated `runtime.txt` to `python-3.12.4`
+- **Why**: Render doesn't use `pythonVersion` field in YAML, uses `runtime.txt` instead
 
-### **2. Persistent Storage for Vector Database**
-- **Added**: Disk mount configuration
-- **Path**: `/opt/render/project/data/vectordb`
-- **Size**: 1GB persistent storage
-- **Why**: Prevents vector database loss between deployments
+### **2. Free Tier Compatibility**
+- **Before**: Disk mount configuration (not available on free tier)
+- **After**: Removed disk configuration, using `/tmp/vectordb`
+- **Why**: Free tier doesn't support persistent disk storage
 
 ### **3. Improved Environment Variables**
 - **Updated**: `VECTOR_DB_PATH` to use persistent storage
