@@ -20,8 +20,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Backend URL
-BACKEND_URL = "http://localhost:8000"
+# Backend URL - reads from environment for deployment
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # Enhanced CSS with adaptive theming
 def inject_enhanced_css():

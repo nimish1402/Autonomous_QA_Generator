@@ -1,0 +1,14 @@
+# Streamlit Cloud Configuration
+
+# Core dependencies for Streamlit app
+streamlit>=1.28.0
+requests>=2.31.0
+pandas>=2.2.0
+python-dotenv>=1.0.0
+
+# Document processing (lightweight)
+PyPDF2>=3.0.1
+beautifulsoup4>=4.12.2
+
+# Additional utilities
+pathlib2>=2.3.0
