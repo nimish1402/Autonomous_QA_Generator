@@ -28,11 +28,11 @@ services:
       - key: VECTOR_DB_PATH
         value: "/tmp/vectordb"
       - key: MAX_TOKENS
-        value: "2000"
+        value: "8192"
       - key: TEMPERATURE
         value: "0.1"
       - key: GEMINI_MODEL
-        value: "gemini-2.0-flash-exp"
+        value: "gemini-2.0-flash-lite"
       - key: PYTHONPATH
         value: "/opt/render/project/src"
       - key: LAZY_LOADING
