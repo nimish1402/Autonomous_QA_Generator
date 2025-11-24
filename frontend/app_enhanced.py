@@ -429,7 +429,8 @@ def inject_modern_css():
 </style>
 """, unsafe_allow_html=True)
 
-inject_modern_css()
+# DO NOT call inject_modern_css() here - it will be called in main()
+
 
 def check_backend_status():
     """Check if the backend is running."""
@@ -623,6 +624,9 @@ def render_home_screen():
 
 def main():
     """Main application"""
+    
+    # Inject CSS on every run to ensure consistent styling
+    inject_modern_css()
     
     # Sidebar
     with st.sidebar:
