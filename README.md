@@ -171,6 +171,10 @@ autonomous-qa-agent/
 
 ---
 
+## Created by 
+Nimish Selot 
+nimish894selot@gmail.com
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
