@@ -62,7 +62,7 @@ class LLMConfig:
         configs = {
             LLMProvider.GEMINI: {
                 'api_key': os.getenv('GEMINI_API_KEY') or os.getenv('GOOGLE_API_KEY'),
-                'model': os.getenv('GEMINI_MODEL', 'gemini-1.5-flash'),
+                'model': os.getenv('GEMINI_MODEL', 'gemini-flash-latest'),
                 'base_url': os.getenv('GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com'),
                 'max_tokens': int(os.getenv('GEMINI_MAX_TOKENS', '2000')),
                 'temperature': float(os.getenv('GEMINI_TEMPERATURE', '0.1')),

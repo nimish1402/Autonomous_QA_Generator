@@ -114,7 +114,7 @@ class DocumentParser:
     def _parse_pdf(self, file_path: str, content: bytes) -> Dict:
         """Parse PDF files."""
         if PdfReader is None:
-            raise ImportError("PyPDF2 is required for PDF parsing. Install with: pip install PyPDF2")
+            raise ImportError("PyPDF2 is required for PDF parsing.")
         
         try:
             from io import BytesIO
